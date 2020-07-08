@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DummyyActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/ad_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.ads.nativetemplates.TemplateView
+            android:id="@+id/native_ad"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:gnt_template_type="@layout/gnt_small_template_view" />
+        <!--        app:gnt_template_type="@layout/gnt_medium_template_view" />-->
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/conn_msgs_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/options_id"
+        android:layout_below="@+id/ad_lay" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/options_id"
+        android:layout_width="match_parent"
+        app:cardElevation="25dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <FrameLayout
+            android:id="@+id/send_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/sendOptionsRecycler">
+
+            <p2pdops.dopsender.views.ProgressBackground
+                android:id="@+id/rippleBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                app:progress_color="@color/pureGrey"
+                app:rb_duration="2000"
+                app:rb_end_alpha="0.97"
+                app:rb_mode="start"
+                app:rb_radius="15dp"
+                app:rb_rippleAmount="3"
+                app:rb_scale="50">
+
+            </p2pdops.dopsender.views.ProgressBackground>
+
+            <LinearLayout
+                android:weightSum="8"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/sendingFileName"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:text="Sending:"
+
+                    android:textColor="@color/pureWhite"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/sendProgress"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_weight="2"
+                    android:textColor="@color/pureWhite"
+
+                    android:text="20 % done"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/sendEta"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/pureWhite"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="~2 min left"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

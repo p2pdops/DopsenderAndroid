@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/_ConnectedLay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/connMessagesRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/options_id"
+        android:clipToPadding="false"
+
+        android:paddingHorizontal="12dp"
+        android:paddingBottom="8dp"
+        android:scrollbarStyle="outsideOverlay"
+
+        app:reverseLayout="true" />
+
+
+    <RelativeLayout
+        android:background="@color/pureWhite"
+        android:id="@+id/options_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/pick_title"
+            android:gravity="center"
+            android:paddingHorizontal="8dp"
+            android:text="Pick items " />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/sendOptionsRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_toEndOf="@+id/tv" />
+
+        <FrameLayout
+            android:id="@+id/send_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/sendOptionsRecycler">
+
+            <p2pdops.dopsender.views.ProgressBackground
+                android:id="@+id/sendRippleBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                app:progress_color="@color/pureGrey"
+                app:rb_duration="2000"
+                app:rb_end_alpha="0.97"
+                app:rb_mode="start"
+                app:rb_radius="15dp"
+                app:rb_rippleAmount="3"
+                app:rb_scale="55">
+
+            </p2pdops.dopsender.views.ProgressBackground>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="8">
+
+                <TextView
+                    android:id="@+id/sendingFileName"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:ellipsize="marquee"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:singleLine="true"
+
+                    android:text="Sending:"
+                    android:textColor="@color/pureWhite"
+
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.robinhood.ticker.TickerView
+                    android:id="@+id/sendProgress"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="20 % done"
+                    android:textColor="@color/pureWhite"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+                <com.robinhood.ticker.TickerView
+                    android:id="@+id/sendEta"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="~2 min left"
+                    android:textColor="@color/pureWhite"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/receive_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/send_progress_bar">
+
+            <p2pdops.dopsender.views.ProgressBackground
+                android:id="@+id/receiveRippleBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                app:progress_color="@color/pureGrey"
+                app:rb_duration="2000"
+                app:rb_end_alpha="0.97"
+                app:rb_mode="end"
+                app:rb_radius="15dp"
+                app:rb_rippleAmount="3"
+                app:rb_scale="55" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="8">
+
+
+                <TextView
+                    android:id="@+id/receivingFileName"
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:ellipsize="marquee"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:singleLine="true"
+
+                    android:text="Receiving:"
+                    android:textColor="@color/pureWhite"
+
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.robinhood.ticker.TickerView
+                    android:id="@+id/receiveProgress"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="20 % done"
+                    android:textColor="@color/pureWhite"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.robinhood.ticker.TickerView
+                    android:id="@+id/receiveEta"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="~2 min left"
+                    android:textColor="@color/pureWhite"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:id="@+id/tap_select_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/receive_progress_bar">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp"
+                android:text="Select files from above menu"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+
+        </FrameLayout>
+
+    </RelativeLayout>
+</RelativeLayout>
+

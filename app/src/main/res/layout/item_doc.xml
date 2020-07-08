@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    android:elevation="10dp"
+    android:orientation="vertical">
+
+    <p2pdops.dopsender.views.SquareImage
+        android:id="@+id/docIcon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="180dp"
+        android:minHeight="200dp"
+        android:padding="28dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_doc_file" />
+
+    <ImageView
+        android:id="@+id/checked"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_margin="4dp"
+        android:alpha="0.95"
+        android:src="@drawable/ic_check"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/docName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/pureBlack"
+        android:ellipsize="marquee"
+
+        android:gravity="center"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+
+        android:text="Hello"
+        android:textColor="@color/pureWhite" />
+
+    <TextView
+        android:id="@+id/docSize"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="20dp"
+        android:gravity="end"
+
+        android:paddingHorizontal="8dp"
+        android:text="5 MB"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/docType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="XLSX"
+
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="50dp"
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="4dp">
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="?android:attr/selectableItemBackground">
+
+        <TextView
+            android:id="@+id/send_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/send_option"
+            android:backgroundTint="@color/colorAccent"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Documents"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+</FrameLayout>
