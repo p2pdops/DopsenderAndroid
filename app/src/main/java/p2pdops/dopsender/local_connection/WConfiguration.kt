@@ -10,7 +10,6 @@ object WConfiguration {
 
     //PORTS
     const val GROUP_OWNER_PORT = 44545
-    const val CLIENT_PORT = 44540
 
     // Handle TYPES
     const val FIRST_SHAKE_HAND = 9301

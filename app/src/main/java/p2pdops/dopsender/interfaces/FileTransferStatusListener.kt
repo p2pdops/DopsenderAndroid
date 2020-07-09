@@ -3,7 +3,7 @@ package p2pdops.dopsender.interfaces
 interface FileTransferStatusListener {
     fun onBytesTransferProgress(
         ip: String?,
-        fileName: String?,
+        filePath: String?,
         totalSize: Long,
         timeLeft: Long,
         speed: String?,
@@ -11,11 +11,12 @@ interface FileTransferStatusListener {
         percentageUploaded: Int
     )
 
-    fun onBytesTransferCompleted(ip: String?, fileName: String?)
-    fun onBytesTransferStarted(ip: String?, fileName: String?)
+    fun onBytesTransferCompleted(ip: String?, filePath: String?)
+    fun onBytesTransferStarted(ip: String?, filePath: String?)
+
     fun onBytesTransferCancelled(
         ip: String?,
         error: String?,
-        fileName: String?
+        filePath: String?
     )
 }

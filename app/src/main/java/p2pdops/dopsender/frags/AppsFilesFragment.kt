@@ -18,13 +18,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.frag_apps.view.*
 
 import p2pdops.dopsender.AppsSelectorActivity
 
 import p2pdops.dopsender.R
-import p2pdops.dopsender.adapters.AppIconRequestHandler
+
 import p2pdops.dopsender.modals.AppData
 
 import p2pdops.dopsender.utils.humanizeBytes
@@ -38,8 +37,6 @@ import p2pdops.dopsender.utils.hide
 import p2pdops.dopsender.utils.show
 
 class AppsFilesFragment : Fragment() {
-
-    private lateinit var picasso: Picasso
 
     class AppFilesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -69,8 +66,6 @@ class AppsFilesFragment : Fragment() {
     override fun onAttach(activity: Activity) {
         super.onAttach(activity)
         try {
-            picasso =
-                Picasso.Builder(activity).addRequestHandler(AppIconRequestHandler(activity)).build()
             mActivity = activity as AppsSelectorActivity
         } catch (e: ClassCastException) {
             throw ClassCastException(
@@ -126,8 +121,9 @@ class AppsFilesFragment : Fragment() {
                     holder.itemView.appName.isSelected = true
                     holder.itemView.appSize.text = humanizeBytes(apk.length(), 0)
 
-                    Glide.with(holder.itemView).load(apk.iconDrawable!!)
-                        .into(holder.itemView.appIcon)
+                    Glide.with(holder.itemView).load(apk.iconDrawable!!).into(holder.itemView.appIcon)
+
+
 
 
                     holder.itemView.setOnClickListener {

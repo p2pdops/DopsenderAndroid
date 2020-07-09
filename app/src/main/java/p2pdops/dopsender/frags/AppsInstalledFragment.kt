@@ -16,13 +16,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.frag_apps.view.*
 import kotlinx.android.synthetic.main.item_app.view.*
 import p2pdops.dopsender.AppsSelectorActivity
 
 import p2pdops.dopsender.R
-import p2pdops.dopsender.adapters.AppIconRequestHandler
 import p2pdops.dopsender.modals.AppData
 
 
@@ -35,8 +34,6 @@ import kotlin.Comparator
 import kotlin.collections.ArrayList
 
 class AppsInstalledFragment : Fragment() {
-
-    private lateinit var picasso: Picasso
 
     class AppsInstalledViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -66,8 +63,6 @@ class AppsInstalledFragment : Fragment() {
     override fun onAttach(activity: Activity) {
         super.onAttach(activity)
         try {
-            picasso =
-                Picasso.Builder(activity).addRequestHandler(AppIconRequestHandler(activity)).build()
             mActivity = activity as AppsSelectorActivity
         } catch (e: ClassCastException) {
             throw ClassCastException(
@@ -129,7 +124,12 @@ class AppsInstalledFragment : Fragment() {
                     holder.itemView.appName.isSelected = true
                     holder.itemView.appSize.text = humanizeBytes(app.length(), 0)
 
-                    picasso.load(AppIconRequestHandler.getUri(app.appPackageName))
+                    val pm = context?.packageManager
+                    Glide.with(requireContext())
+                        .load(pm?.getApplicationIcon(app.appPackageName))
+                        .error(R.drawable.ic_apk)
+                        .thumbnail(0.2f)
+                        .centerCrop()
                         .into(holder.itemView.appIcon)
 
 
@@ -172,7 +172,8 @@ class AppsInstalledFragment : Fragment() {
             for (info in appsArray) {
                 appName = info.loadLabel(pm).toString()
                 val appData = AppData(
-                    appName = appName[0].toUpperCase() + appName.substring(1).toLowerCase(Locale.getDefault()),
+                    appName = appName[0].toUpperCase() + appName.substring(1)
+                        .toLowerCase(Locale.getDefault()),
                     appPackageName = info.activityInfo.packageName,
                     appFilePath = info.activityInfo.applicationInfo.publicSourceDir
                 )

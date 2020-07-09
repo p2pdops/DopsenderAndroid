@@ -15,11 +15,11 @@ enum class ConnectionMessageType {
 }
 
 enum class FileType {
-    DOC,
-    APK,
-    IMAGE,
-    VIDEO,
-    AUDIO,
+    Documents,
+    Apps,
+    Images,
+    Videos,
+    Audios,
     COMPRESSED
 }
 

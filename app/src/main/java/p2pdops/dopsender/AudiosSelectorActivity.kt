@@ -48,7 +48,7 @@ class AudiosSelectorActivity : AppCompatActivity() {
     override
     fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_videos_selector)
+        setContentView(R.layout.activity_audios_selector)
 
         send_fab.hide()
 
@@ -57,7 +57,7 @@ class AudiosSelectorActivity : AppCompatActivity() {
 
         FetchAudioFoldersAsyncTask(this).execute()
 
-        supportActionBar?.title = "Your videos"
+        supportActionBar?.title = "Your Audios"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     }
@@ -68,7 +68,7 @@ class AudiosSelectorActivity : AppCompatActivity() {
         override fun doInBackground(vararg params: Void?): ArrayList<FolderInfo> {
             val foldersList = ArrayList<FolderInfo>()
             val lCursor: Cursor
-            Log.d("FetchVideoFolders", "GetAllVideosFoldersCursor")
+            Log.d("FetchAudioFolders", "called")
 
             val lUri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 
@@ -117,13 +117,13 @@ class AudiosSelectorActivity : AppCompatActivity() {
 
         override fun onPostExecute(result: ArrayList<FolderInfo>) {
             super.onPostExecute(result)
-            activity.handleVideosAvailable(result)
+            activity.handleAudiosAvailable(result)
 
         }
 
     }
 
-    private fun handleVideosAvailable(folders: ArrayList<FolderInfo>) {
+    private fun handleAudiosAvailable(folders: ArrayList<FolderInfo>) {
         setBtmBarText("Select audios to continue")
 
         view_pager.show()
@@ -169,7 +169,7 @@ class AudiosSelectorActivity : AppCompatActivity() {
     }
 
     fun selectAudioAll(files: List<File>, position: Int) {
-        Log.d(TAG, "selectVideosAll: ")
+        Log.d(TAG, "selectAudioAll: ")
 
         deSelectAudioAll(files, position).apply {
             selectedAudios.addAll(files)
@@ -182,7 +182,7 @@ class AudiosSelectorActivity : AppCompatActivity() {
     }
 
     fun deSelectAudioAll(files: List<File>, position: Int) {
-        Log.d(TAG, "deSelectVideosAll: ")
+        Log.d(TAG, "deSelectAudioAll: ")
         selectedAudios.removeAll(files).apply {
             totalSize = selectedAudios.fold(0L) { sum, element -> sum + element.length() }
         }.apply {

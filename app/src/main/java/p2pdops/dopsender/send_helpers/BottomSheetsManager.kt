@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -74,7 +73,7 @@ class SendOptionsAdapter(private val c: Activity) : RecyclerView.Adapter<SendOpt
             AppsSelectorActivity::class.java to RESULT_CODE_INPUT_APPS,
             ImagesSelectorActivity::class.java to RESULT_CODE_INPUT_IMAGES,
             VideosSelectorActivity::class.java to RESULT_CODE_INPUT_VIDEOS,
-            AudiosSelectorActivity::class.java to RESULT_CODE_INPUT_AUDIO,
+            AudiosSelectorActivity::class.java to RESULT_CODE_INPUT_AUDIOS,
             CompressedSelectorActivity::class.java to RESULT_CODE_INPUT_COMPRESSED
         )
 

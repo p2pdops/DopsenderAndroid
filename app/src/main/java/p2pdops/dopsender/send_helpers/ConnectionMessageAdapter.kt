@@ -3,6 +3,8 @@ package p2pdops.dopsender.send_helpers
 import android.app.Activity
 import android.content.pm.PackageManager
 import android.graphics.PorterDuff
+import android.graphics.Typeface
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,7 +58,7 @@ class ConnSendHolder(itemView: View) : BaseConnHolder(itemView) {
                     )
                 )
             }
-            FileType.DOC -> {
+            FileType.Documents -> {
                 ContextCompat.getColor(
                     itemView.context!!,
                     docsColormap.getOrElse(itemFile.extension) { R.color.color_pdf })
@@ -70,8 +72,7 @@ class ConnSendHolder(itemView: View) : BaseConnHolder(itemView) {
                         )
                     }
             }
-
-            FileType.AUDIO -> {
+            FileType.Audios -> {
                 itemView.sendFileIcon.setColorFilter(
                     getColorStateList(
                         itemView.context,
@@ -85,16 +86,31 @@ class ConnSendHolder(itemView: View) : BaseConnHolder(itemView) {
                     )
                 )
             }
-            FileType.IMAGE -> {
-                Glide.with(itemView).load(item.filePath).thumbnail(0.2f).centerCrop()
+            FileType.Images -> {
+                Glide.with(itemView).load(item.filePath).thumbnail(0.5f).centerCrop()
                     .error(R.drawable.ic_images).into(itemView.sendFileIcon)
             }
-            FileType.VIDEO -> Glide.with(itemView)
+            FileType.Videos -> Glide.with(itemView)
                 .load(item.filePath).thumbnail(0.2f).centerCrop()
                 .error(R.drawable.ic_images).into(itemView.sendFileIcon)
-            FileType.APK -> Glide.with(itemView).load(item.filePath).thumbnail(0.2f)
-                .centerCrop()
-                .into(itemView.sendFileIcon)
+            FileType.Apps -> {
+                val pm = itemView.context.packageManager
+                pm?.getPackageArchiveInfo(
+                    item.filePath,
+                    PackageManager.GET_META_DATA
+                )?.let {
+                    it.applicationInfo.sourceDir = item.filePath;
+                    it.applicationInfo.publicSourceDir = item.filePath;
+                    Log.d("ConnReceiveHolder", "appInfo: ${it.applicationInfo}")
+                    Glide
+                        .with(itemView)
+                        .load(it.applicationInfo.loadIcon(pm))
+                        .error(R.drawable.ic_apk)
+                        .thumbnail(0.2f)
+                        .centerCrop()
+                        .into(itemView.sendFileIcon)
+                }
+            }
         }
 
         itemView.sendFileName.text = item.fileName
@@ -103,7 +119,13 @@ class ConnSendHolder(itemView: View) : BaseConnHolder(itemView) {
         itemView.sendFileSize.text = humanizeBytes(itemFile.length())
         itemView.sendFileStatus.text = when (item.status) {
             ConnFileStatusTypes.WAITING -> "In queue"
-            ConnFileStatusTypes.LOADING -> "Sending"
+            ConnFileStatusTypes.LOADING -> {
+                itemView.sendFileStatus.setTypeface(
+                    itemView.sendFileStatus.typeface,
+                    Typeface.BOLD_ITALIC
+                )
+                "Sending"
+            }
             ConnFileStatusTypes.LOADED -> "Sent"
         }
     }
@@ -129,7 +151,7 @@ class ConnReceiveHolder(itemView: View) : BaseConnHolder(itemView) {
                     )
                 )
             }
-            FileType.DOC -> {
+            FileType.Documents -> {
                 ContextCompat.getColor(
                     itemView.context!!,
                     docsColormap.getOrElse(itemFile.extension) { R.color.color_pdf })
@@ -144,7 +166,7 @@ class ConnReceiveHolder(itemView: View) : BaseConnHolder(itemView) {
                     }
             }
 
-            FileType.AUDIO -> {
+            FileType.Audios -> {
                 itemView.receiveFileIcon.setColorFilter(
                     getColorStateList(
                         itemView.context,
@@ -158,19 +180,19 @@ class ConnReceiveHolder(itemView: View) : BaseConnHolder(itemView) {
                     )
                 )
             }
-            FileType.IMAGE -> Glide.with(itemView)
+            FileType.Images -> Glide.with(itemView)
                 .load(item.filePath).thumbnail(0.2f).centerCrop()
                 .error(
                     ContextCompat.getDrawable(itemView.context, R.drawable.ic_images)
                 )
                 .into(itemView.receiveFileIcon)
-            FileType.VIDEO -> Glide.with(itemView)
+            FileType.Videos -> Glide.with(itemView)
                 .load(item.filePath).thumbnail(0.2f).centerCrop().error(
                     ContextCompat.getDrawable(itemView.context, R.drawable.ic_video)
                 )
                 .into(itemView.receiveFileIcon)
 
-            FileType.APK -> {
+            FileType.Apps -> {
 
                 if (item.status == ConnFileStatusTypes.LOADED) {
                     val pm = itemView.context.packageManager
@@ -178,6 +200,9 @@ class ConnReceiveHolder(itemView: View) : BaseConnHolder(itemView) {
                         item.filePath,
                         PackageManager.GET_META_DATA
                     )?.let {
+                        it.applicationInfo.sourceDir = item.filePath;
+                        it.applicationInfo.publicSourceDir = item.filePath;
+                        Log.d("ConnReceiveHolder", "setItem: ${it.applicationInfo}")
                         Glide
                             .with(itemView)
                             .load(it.applicationInfo.loadIcon(pm))
@@ -204,7 +229,13 @@ class ConnReceiveHolder(itemView: View) : BaseConnHolder(itemView) {
 
         itemView.receiveFileStatus.text = when (item.status) {
             ConnFileStatusTypes.WAITING -> "In queue"
-            ConnFileStatusTypes.LOADING -> "Receiving"
+            ConnFileStatusTypes.LOADING -> {
+                itemView.receiveFileStatus.setTypeface(
+                    itemView.receiveFileStatus.typeface,
+                    Typeface.BOLD_ITALIC
+                )
+                "Receiving"
+            }
             ConnFileStatusTypes.LOADED -> "Received"
         }
     }

@@ -21,7 +21,7 @@ class ReceiveFileDownloadTask(
     private var fileSaveAddress: String = ""
 
     companion object {
-        private const val TAG = "DownloadPeerFileTask"
+        private const val TAG = "ReceiveFileDownloadTask"
     }
 
     override fun onPreExecute() {
@@ -32,13 +32,25 @@ class ReceiveFileDownloadTask(
     }
 
     override fun doInBackground(vararg params: Long?): Long? {
+
+        val dopsenderFolder =
+            File(Environment.getExternalStorageDirectory().canonicalPath + "/Dopsender/")
+
+        if (!(dopsenderFolder.exists()))
+            if (dopsenderFolder.mkdirs())
+                Log.d(
+                    TAG,
+                    "doInBackground: created dopsender folder ${dopsenderFolder.canonicalPath}"
+                )
+
+
         val fileAddress = "http://${c.peerAddress!!.hostAddress}:9090${fileData.filePath}"
 
         this.fileSaveAddress =
-            Environment.getExternalStorageDirectory().absolutePath + "/Dopsender/" + fileAddress.substring(
+            dopsenderFolder.canonicalPath + '/' + fileData.type + '/' + fileAddress.substring(
                 fileAddress.lastIndexOf('/') + 1
-
             )
+
 
         val f = File(fileSaveAddress)
 
@@ -46,17 +58,18 @@ class ReceiveFileDownloadTask(
         Log.d(TAG, "handleMessage: $f")
 
 
-        val dirs = File(f.parent!!)
-        if ((dirs.exists() || dirs.mkdirs()) && f.createNewFile())
+        val downloadFolder = File(f.parent!!)
+
+        if ((downloadFolder.exists() || downloadFolder.mkdirs()) && f.createNewFile())
             Log.d(SenderActivity.TAG, "writing file : $f")
 
         val client = OkHttpClient()
         val call = client.newCall(Request.Builder().url(fileAddress).get().build())
         try {
             val response: Response = call.execute()
-            if (response.code() == 200 || response.code() == 201) {
-                val responseHeaders: Headers = response.headers()
-                for (i in 0 until responseHeaders.size()) {
+            if (response.code == 200 || response.code == 201) {
+                val responseHeaders: Headers = response.headers
+                for (i in 0 until responseHeaders.size) {
                     Log.d(
                         SenderActivity.TAG,
                         responseHeaders.name(i).toString() + ": " + responseHeaders.value(i)
@@ -64,7 +77,7 @@ class ReceiveFileDownloadTask(
                 }
                 var inputStream: InputStream? = null
                 try {
-                    inputStream = response.body()!!.byteStream()
+                    inputStream = response.body!!.byteStream()
                     val buff = ByteArray(1024 * 8)
                     var bytesDownloaded: Long = 0
                     val timeStarted = System.currentTimeMillis()
@@ -72,7 +85,7 @@ class ReceiveFileDownloadTask(
                     var networkSpeed = 0L
                     var eta = 0L
                     var dlTimeQuotiant = 1
-                    var target: Long = response.body()!!.contentLength()
+                    var target: Long = response.body!!.contentLength()
 
                     val output: OutputStream = FileOutputStream(f)
 

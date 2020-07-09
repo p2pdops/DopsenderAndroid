@@ -89,6 +89,7 @@ class AppsSelectorActivity : AppCompatActivity() {
 
         send_fab.setOnClickListener {
             val returnIntent = Intent()
+            selectedApps.forEach { appData: AppData -> appData.iconDrawable = null }
             returnIntent.putExtra(Constants.APPS, selectedApps)
             setResult(Activity.RESULT_OK, returnIntent)
             finish()

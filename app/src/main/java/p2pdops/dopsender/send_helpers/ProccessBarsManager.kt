@@ -29,26 +29,26 @@ fun SenderActivity.showInfoBar() {
 fun SenderActivity.showSendProcessBar() {
     if (isSending) {
         sendRippleBackground.startRippleAnimation()
-        send_progress_bar.bulge()
+        send_progress_bar.slideUp()
         hideInfoBar()
     }
 }
 
 fun SenderActivity.showReceiveProcessBar() {
     receiveRippleBackground.startRippleAnimation()
-    receive_progress_bar.bulge()
+    receive_progress_bar.slideUp()
     hideInfoBar()
 }
 
 fun SenderActivity.hideSendProcessBar() {
     sendRippleBackground.stopRippleAnimation()
-    send_progress_bar.shrink()
+    send_progress_bar.slideDown()
     showInfoBar()
 }
 
 fun SenderActivity.hideReceiveProcessBar() {
     receiveRippleBackground.stopRippleAnimation()
-    receive_progress_bar.shrink()
+    receive_progress_bar.slideDown()
     showInfoBar()
 }
 
@@ -56,7 +56,7 @@ fun SenderActivity.setReceivingFileName(fileName: String) {
     receivingFileName.text = "Receiving: $fileName%"
 }
 
-fun SenderActivity.setSendingFileName(fileName: String) {
+fun SenderActivity.setSendingFilePath(fileName: String) {
     sendingFileName.text = "Sending: $fileName%"
 }
 

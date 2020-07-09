@@ -42,7 +42,7 @@ import p2pdops.dopsender.modals.ConnectionItem
 import p2pdops.dopsender.modals.FileData
 import p2pdops.dopsender.send_helpers.*
 import p2pdops.dopsender.services.ForegroundFileService
-import p2pdops.dopsender.services.ForegroundFileService.Companion.FILE_NAME
+import p2pdops.dopsender.services.ForegroundFileService.Companion.FILE_PATH
 import p2pdops.dopsender.services.ForegroundFileService.Companion.FROM_FILE_SERVER
 import p2pdops.dopsender.services.ForegroundFileService.Companion.PROCESS_ETA
 import p2pdops.dopsender.services.ForegroundFileService.Companion.PROCESS_PERCENTAGE
@@ -61,7 +61,6 @@ import java.io.*
 import java.lang.Exception
 import java.net.InetAddress
 import kotlin.collections.ArrayList
-
 
 class SenderActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsResponse>,
     WifiP2pManager.ConnectionInfoListener, Handler.Callback {
@@ -113,13 +112,16 @@ class SenderActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsR
                 Log.d("receiver", "Got message: $type ")
                 when (type) {
                     TRANSFER_FILE_STARTED -> {
-                        val fileName = intent.getStringExtra(FILE_NAME)!!
-                        setSendingFileName(fileName)
+                        val filePath = intent.getStringExtra(FILE_PATH)!!
+                        Log.d(TAG, "onReceive: filePath: $filePath")
+                        Log.d(TAG, "onReceive: fileQue: $connMessagesList")
+                        setSendingFilePath(filePath)
                         isSending = true
                         showSendProcessBar()
                         currPos =
-                            connMessagesList.indexOfFirst { (it is ConnSendFileItem && it.fileName == fileName) }
-                        updateItemToSending(currPos)
+                            connMessagesList.indexOfFirst { (it is ConnSendFileItem && it.filePath == filePath) }
+                        if (currPos != -1)
+                            updateItemToSending(currPos)
                     }
                     TRANSFER_FILE_PROCESS -> {
                         val percentage = intent.getIntExtra(PROCESS_PERCENTAGE, 0)
@@ -128,7 +130,13 @@ class SenderActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsR
                     }
                     TRANSFER_FILE_COMPLETED,
                     TRANSFER_FILE_CANCELLED -> {
-                        updateItemToSent(currPos)
+                        val filePath = intent.getStringExtra(FILE_PATH)!!
+                        Log.d(TAG, "onReceive: filePath: $filePath")
+                        Log.d(TAG, "onReceive: fileQue: $connMessagesList")
+                        currPos =
+                            connMessagesList.indexOfFirst { (it is ConnSendFileItem && it.filePath == filePath) }
+                        if (currPos != -1)
+                            updateItemToSent(currPos)
                         isSending = false
                         hideSendProcessBar()
                     }
@@ -189,7 +197,7 @@ class SenderActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsR
         }
     }
 
-    private fun startProcess() {
+    internal fun startProcess() {
 
 
         handler.postDelayed({
@@ -269,7 +277,7 @@ class SenderActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsR
 
                 override fun onFailure(i: Int) {
                     Log.d(TAG, "onFailure: remove group failed")
-                    finish()
+                    startProcess()
                 }
             })
 
@@ -295,7 +303,7 @@ class SenderActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsR
             try {
                 Log.d(TAG, "onConnectionInfoAvailable: socketThread:" + (socketThread != null))
                 socketThread = GroupOwnerSocketThread(handler)
-                socketThread!!.start()
+                socketThread?.start()
 
                 //set Group Owner ip address
                 Log.d(TAG, "onConnectionInfoAvailable: ${wifiInfo.groupOwnerAddress.hostAddress}")

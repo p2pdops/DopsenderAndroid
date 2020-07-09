@@ -12,7 +12,7 @@ data class WConnMessage(
     val stringData: String?
 )
 
-internal class WaitingToSendListElement {
+class WaitingToSendListElement {
 
     val waitingToSendList: List<String>
 
@@ -76,3 +76,4 @@ class WaitingToSendQueue private constructor() {
         waitingToSend = ArrayList()
     }
 }
+

@@ -21,11 +21,13 @@ class ClientSocketThread(
 
     override fun run() {
         socket = Socket()
-
+        socket?.bind(null);
         try {
             socket!!.connect(
-                InetSocketAddress(groupOwnerAddress.hostAddress, WConfiguration.GROUP_OWNER_PORT),
-                WConfiguration.CLIENT_PORT
+                InetSocketAddress(
+                    groupOwnerAddress.hostAddress,
+                    WConfiguration.GROUP_OWNER_PORT
+                )
             )
 
             Log.d(TAG, "Socket Connected : ${socket?.isBound}")

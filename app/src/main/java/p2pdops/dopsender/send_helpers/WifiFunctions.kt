@@ -78,7 +78,7 @@ fun SenderActivity.startDnsSdPresenceListeners() {
 
             devicesAdapter.addDevice(newRecord)
 
-            Toast.makeText(this as Context, "$newRecord", Toast.LENGTH_LONG).show()
+//            Toast.makeText(this as Context, "$newRecord", Toast.LENGTH_LONG).show()
         }
     ).also {
         clearAndStartPresenceServiceRequests()
@@ -127,14 +127,11 @@ fun SenderActivity.forceConnect(macAddress: String) {
     this.manager!!.connect(this.channel, config, object : WifiP2pManager.ActionListener {
         override fun onSuccess() {
             Log.d(TAG, "forceConnect: connected to : $macAddress ")
-            Toast.makeText(applicationContext, "Connected to $macAddress", Toast.LENGTH_LONG).show()
         }
 
         override fun onFailure(reason: Int) {
-            // ERROR- 0 ; BUSY - 2
             Log.d(TAG, "forceConnect: onFailure: $reason")
-            // restart services
-            finish()
+            startProcess()
         }
     })
 }

@@ -44,9 +44,10 @@ class GroupOwnerSocketThread(private val handler: Handler) : Thread() {
     }
 
     override fun run() {
+        Log.d(TAG, "run: called")
         while (true) {
             try {
-                // Blocking operation : Initiate a ChatManager instance when there is a new connection
+                // Blocking operation : Initiate a MessagesRunnable instance when there is a new connection
                 if (serverSocket != null && !serverSocket!!.isClosed) {
                     val clientSocket = serverSocket!!.accept()
                     pool.execute(MessagesRunnable(clientSocket, handler))
@@ -59,11 +60,7 @@ class GroupOwnerSocketThread(private val handler: Handler) : Thread() {
                         serverSocket!!.close()
                     }
                 } catch (ioe: IOException) {
-                    Log.e(
-                        TAG,
-                        "IOException during close Socket",
-                        ioe
-                    )
+                    Log.e(TAG, "Error closing Socket", ioe)
                 }
                 pool.shutdownNow()
                 break

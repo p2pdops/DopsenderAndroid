@@ -26,34 +26,28 @@ class MessagesRunnable(private val socket: Socket, private val handler: Handler)
             handler.obtainMessage(WConfiguration.FIRST_SHAKE_HAND, this).sendToTarget()
 
             val buffer = ByteArray(1024)
-
             var bufferLength: Int
-            if (inputStream != null) {
-                try {
-                    while (!disabled) {
 
-                        try {
-                            bufferLength = inputStream!!.read(buffer, 0, 1024)
-                            //Log.d(TAG, "run: msg: size:$msgSize data:${String(buffer)}")
-                            if (bufferLength == -1) break
+            while (!disabled) {
 
-                            //HANDLE_OBTAINED_MESSAGE
-                            handler.obtainMessage(
-                                WConfiguration.HANDLE_OBTAINED_MESSAGE,
-                                bufferLength,
-                                -1,
-                                buffer
-                            ).sendToTarget()
-                        } catch (e: Exception) {
-                            Log.d(TAG, "run: inStream error: $e")
-                        }
+                if (inputStream != null) {
+                    try {
+
+                        bufferLength = inputStream!!.read(buffer)
+
+                        if (bufferLength == -1) break
+
+                        //HANDLE_OBTAINED_MESSAGE
+                        handler.obtainMessage(
+                            WConfiguration.HANDLE_OBTAINED_MESSAGE,
+                            bufferLength,
+                            -1,
+                            buffer
+                        ).sendToTarget()
+
+                    } catch (e: IOException) {
+                        Log.e(TAG, "run: error in while:", e)
                     }
-                } catch (e: Exception) {
-                    Log.e(TAG, "run: error in while:", e)
-
-                    handler.obtainMessage(WConfiguration.HANDLE_TRY_FORCE_DISCONNECT, this)
-                        .sendToTarget()
-
                 }
             }
 
@@ -61,8 +55,9 @@ class MessagesRunnable(private val socket: Socket, private val handler: Handler)
             Log.e(TAG, "run: error", e)
         } finally {
             try {
-                //inputStream?.close()
-                //socket.close()
+                inputStream?.close()
+                socket.close()
+                Log.d(TAG, "run: socket closed")
             } catch (e: IOException) {
                 Log.e(TAG, "error Closing inputStream/socket", e)
             }
@@ -71,13 +66,14 @@ class MessagesRunnable(private val socket: Socket, private val handler: Handler)
 
     fun write(buffer: ByteArray) {
         val thread = Thread(Runnable {
-            try {
-                Thread.sleep(200)
-                outputStream!!.write(buffer)
-            } catch (e: IOException) {
-                Log.e(TAG, "Error in write: ", e)
+            if (!socket.isClosed)
+                try {
+                    Thread.sleep(200)
+                    outputStream!!.write(buffer)
+                } catch (e: IOException) {
+                    Log.e(TAG, "Error in write: ", e)
 //                handler.obtainMessage(WConfiguration.HANDLE_TRY_RESTART_SOCKET).sendToTarget()
-            }
+                }
         })
 
         thread.start()

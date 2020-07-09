@@ -707,7 +707,7 @@ public abstract class NanoHttpD {
                 ioe.printStackTrace();
                 // Couldn't write? No can do.
                 if (null != fileUploadStatusListener)
-                    fileUploadStatusListener.onBytesTransferCancelled(clientIp, totalTime > 0 ? ioe.getMessage() : null, targetFile.getName());
+                    fileUploadStatusListener.onBytesTransferCancelled(clientIp, totalTime > 0 ? ioe.getMessage() : null, targetFile.getPath());
             }
         }
 
@@ -757,7 +757,7 @@ public abstract class NanoHttpD {
                 byte[] buff = new byte[BUFFER_SIZE];
                 if (null != fileUploadStatusListener) {
                     timeStarted = System.currentTimeMillis();
-                    fileUploadStatusListener.onBytesTransferStarted(clientIp, targetFile.getName());
+                    fileUploadStatusListener.onBytesTransferStarted(clientIp, targetFile.getCanonicalPath());
                 }
                 long length = targetFile.length();
                 while (pending > 0) {
@@ -777,13 +777,13 @@ public abstract class NanoHttpD {
                         if (totalTime > 1000 * dlTimeQuotiant) {
                             dlTimeQuotiant++;
                             //humanizeBytes(networkSpeed, 2) + " / s" is speed
-                            fileUploadStatusListener.onBytesTransferProgress(clientIp, targetFile.getName(), totalSize, timeLeft, null, bytesUpload, (int) (((bytesUpload) / (1.0f * totalSize)) * 100));
+                            fileUploadStatusListener.onBytesTransferProgress(clientIp, targetFile.getCanonicalPath(), totalSize, timeLeft, null, bytesUpload, (int) (((bytesUpload) / (1.0f * totalSize)) * 100));
                         }
 
                     }
                 }
                 if (null != fileUploadStatusListener)
-                    fileUploadStatusListener.onBytesTransferCompleted(clientIp, targetFile.getName());
+                    fileUploadStatusListener.onBytesTransferCompleted(clientIp, targetFile.getCanonicalPath());
             }
         }
 

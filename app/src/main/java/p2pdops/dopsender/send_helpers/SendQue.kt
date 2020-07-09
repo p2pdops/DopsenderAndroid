@@ -4,18 +4,22 @@ import android.util.Log
 import com.google.gson.Gson
 import p2pdops.dopsender.SenderActivity
 import p2pdops.dopsender.SenderActivity.Companion.TAG
+import p2pdops.dopsender.modals.AppData
 import p2pdops.dopsender.modals.FileData
 import p2pdops.dopsender.modals.FileType
 import java.io.File
 
 fun SenderActivity.addFileToQue(file: File, fileType: FileType) {
-    Log.d(SenderActivity.TAG, "operateMessageAction: $file")
+    Log.d(TAG, "operateMessageAction: $file")
     if (queuedList.isEmpty()) {
         Log.d(TAG, "addFileToQue: que empty adding $file")
         queuedList.add(
             FileData(
                 fileType,
-                file.name,
+                if (fileType == FileType.Apps) (file as AppData).appName + if (file.appName.endsWith(
+                        ".apk"
+                    )
+                ) "" else ".apk" else file.name,
                 file.absolutePath,
                 file.length()
             )
@@ -27,7 +31,10 @@ fun SenderActivity.addFileToQue(file: File, fileType: FileType) {
         queuedList.add(
             FileData(
                 fileType,
-                file.name,
+                if (fileType == FileType.Apps) (file as AppData).appName + if (file.appName.endsWith(
+                        ".apk"
+                    )
+                ) "" else ".apk" else file.name,
                 file.absolutePath,
                 file.length()
             )
