@@ -33,9 +33,7 @@ android {
         release {
             resValue "string", "appId", "ca-app-pub-3940256099942544~3347511713"
             resValue "string", "nativeAdId", "ca-app-pub-3940256099942544/2247696110"
-//            minifyEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            debuggable false
+
             signingConfig signingConfigs.release
         }
     }
