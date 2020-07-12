@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.IntentSender.SendIntentException
 import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.net.wifi.WifiManager
@@ -18,9 +19,11 @@ import android.net.wifi.p2p.WifiP2pManager
 import android.os.*
 import android.util.Log
 import android.view.MenuItem
-
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.getkeepsafe.taptargetview.TapTarget
+import com.getkeepsafe.taptargetview.TapTargetView
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
@@ -30,10 +33,8 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-
 import kotlinx.android.synthetic.main.ac_sender_connected_lay.*
 import kotlinx.android.synthetic.main.activity_sender.*
-
 import p2pdops.dopsender.adapters.WifiDeviceData
 import p2pdops.dopsender.adapters.WifiDevicesAdapter
 import p2pdops.dopsender.local_connection.*
@@ -46,21 +47,15 @@ import p2pdops.dopsender.services.ForegroundFileService.Companion.FILE_PATH
 import p2pdops.dopsender.services.ForegroundFileService.Companion.FROM_FILE_SERVER
 import p2pdops.dopsender.services.ForegroundFileService.Companion.PROCESS_ETA
 import p2pdops.dopsender.services.ForegroundFileService.Companion.PROCESS_PERCENTAGE
-
 import p2pdops.dopsender.services.ForegroundFileService.Companion.TRANSFER_FILE_CANCELLED
 import p2pdops.dopsender.services.ForegroundFileService.Companion.TRANSFER_FILE_COMPLETED
 import p2pdops.dopsender.services.ForegroundFileService.Companion.TRANSFER_FILE_PROCESS
 import p2pdops.dopsender.services.ForegroundFileService.Companion.TRANSFER_FILE_STARTED
 import p2pdops.dopsender.services.ForegroundFileService.Companion.TYPE
-import p2pdops.dopsender.utils.bulge
-import p2pdops.dopsender.utils.hide
-
-import p2pdops.dopsender.utils.shrink
+import p2pdops.dopsender.utils.*
 import p2pdops.dopsender.utils.wifi.WifiExtraHelper
-import java.io.*
-import java.lang.Exception
+import java.io.IOException
 import java.net.InetAddress
-import kotlin.collections.ArrayList
 
 class SenderActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsResponse>,
     WifiP2pManager.ConnectionInfoListener, Handler.Callback {
@@ -68,7 +63,6 @@ class SenderActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsR
     companion object {
         const val TAG = "SenderActivity"
         private const val REQUEST_CHECK_SETTINGS = 204
-
         private const val UPDATE_UI_CONNECTED = 11
         private const val UPDATE_UI_DIS_CONNECTED = 12
 
@@ -150,6 +144,11 @@ class SenderActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsR
 
         setContentView(R.layout.activity_sender)
 
+
+        myDp.setImageResource(getLocalDpRes())
+        myInfo.text = "${getLocalName()}\n${Build.MODEL}"
+
+
         LocalBroadcastManager.getInstance(this)
             .registerReceiver(mMessageReceiver, IntentFilter(FROM_FILE_SERVER))
 
@@ -164,7 +163,7 @@ class SenderActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsR
 
         handler.post {
             MobileAds.initialize(this)
-            val adLoader = AdLoader.Builder(this, getString(R.string.nativeAdId))
+            val adLoader = AdLoader.Builder(this, getString(R.string.sender_ad_id))
                 .forUnifiedNativeAd { unifiedNativeAd ->
                     val styles = NativeTemplateStyle.Builder()
                         .withMainBackgroundColor(
@@ -174,6 +173,7 @@ class SenderActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsR
 
                     native_ad.setStyles(styles)
                     native_ad.setNativeAd(unifiedNativeAd)
+                    native_ad.bulge()
                 }
                 .build()
 
@@ -219,6 +219,7 @@ class SenderActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsR
     }
 
 
+    @SuppressLint("MissingPermission")
     private fun initializeWifiManager() {
         rippleBackground.startRippleAnimation()
         val intentFilter = IntentFilter()
@@ -229,7 +230,25 @@ class SenderActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsR
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION)
 
         this.manager = (getSystemService(Context.WIFI_P2P_SERVICE) as WifiP2pManager)
-        this.channel = manager!!.initialize(this, Looper.getMainLooper(), null)
+        this.channel = manager!!.initialize(
+            this, Looper.getMainLooper()
+        ) { }
+
+        manager?.discoverPeers(channel, object : WifiP2pManager.ActionListener {
+            override fun onSuccess() {
+                //onSuccess
+                manager?.stopPeerDiscovery(channel, null)
+            }
+
+            override fun onFailure(reason: Int) {
+                if (reason == 1) {
+                    setDeviceUnSupported()
+                    startActivity(Intent(this@SenderActivity, NoSupportedActivity::class.java))
+                    finish()
+                }
+                manager?.stopPeerDiscovery(channel, null)
+            }
+        })
         this.manager?.requestConnectionInfo(channel, this)
         if (!forceRefresh) {
             wifiBroadCastReceiver = WiFiP2PBroadcastReceiver(manager!!, channel!!, this)
@@ -323,6 +342,45 @@ class SenderActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsR
     private fun updateUi(code: Int) {
         when (code) {
             UPDATE_UI_CONNECTED -> {
+
+                waiting.slideUp()
+                tapAnimation.slideUp()
+                if (!getSendSelectHelperShown()) {
+
+                    TapTargetView.showFor(this,
+                        TapTarget.forView(
+                            sendOptionsRecycler,
+                            "Select files here!",
+                            "Click on this menu to select different kinds of files."
+                        )
+                            .outerCircleColor(R.color.pureWhite) // Specify a color for the outer circle
+                            .outerCircleAlpha(0.98f) // Specify the alpha amount for the outer circle
+                            .targetCircleColor(R.color.unPureWhite) // Specify a color for the target circle
+                            .titleTextSize(20) // Specify the size (in sp) of the title text
+                            .titleTextColor(R.color.pureBlack) // Specify the color of the title text
+                            .descriptionTextSize(16) // Specify the size (in sp) of the description text
+                            .descriptionTextColor(R.color.pureBlack) // Specify the color of the description text
+                            .textColor(R.color.black80) // Specify a color for both the title and description text
+                            .textTypeface(Typeface.SANS_SERIF) // Specify a typeface for the text
+                            .dimColor(R.color.unPureWhite) // If set, will dim behind the view with 30% opacity of the given color
+                            .drawShadow(true) // Whether to draw a drop shadow or not
+                            .cancelable(true) // Whether tapping outside the outer circle dismisses the view
+                            .tintTarget(true) // Whether to tint the target view's color
+                            .transparentTarget(true) // Specify whether the target is transparent (displays the content underneath)
+                            .targetRadius(15),  // Specify the target radius (in dp)
+                        object : TapTargetView.Listener() {
+                            override fun onTargetClick(view: TapTargetView?) {
+                                super.onTargetClick(view)
+                                Toast.makeText(
+                                    this@SenderActivity,
+                                    "Ready to go!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
+                    setSendSelectHelperShown()
+                }
+
                 rippleBackground.stopRippleAnimation()
                 closeSheet(discoverDevicesSheet)
                 _disConnectedLay.shrink()

@@ -4,8 +4,11 @@
     <item android:state_selected="true">
         <layer-list>
             <item>
-                <shape android:innerRadius="3dp" android:shape="ring" android:thickness="2dp" android:useLevel="false">
-                    <solid android:color="@color/gradient_start_color" />
+                <shape android:innerRadius="0dp"
+                    android:shape="ring"
+
+                    android:thickness="4dp" android:useLevel="false">
+                    <solid android:color="@color/pureWhite" />
                 </shape>
             </item>
         </layer-list>

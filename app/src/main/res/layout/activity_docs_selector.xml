@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:backgroundTint="@color/pureWhite"
+        app:backgroundTint="@color/colorPrimary"
         app:fabAlignmentMode="end"
         app:hideOnScroll="true">
 
@@ -58,6 +58,8 @@
             android:layout_height="wrap_content"
             android:text="Loading documents..."
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/pureWhite"
+            android:textSize="16sp"
             app:ticker_defaultCharacterList="number" />
 
 
@@ -70,9 +72,9 @@
         android:layout_margin="16dp"
         android:text="Send"
         android:textAlignment="center"
-        app:backgroundTint="@color/pureWhite"
+        app:backgroundTint="@color/colorPrimary"
         app:layout_anchor="@id/bottom_app_bar"
-        app:srcCompat="@drawable/ic_send"
-        app:tint="@color/pureBlack" />
+        app:srcCompat="@drawable/ic_forward"
+        app:tint="@color/pureWhite" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

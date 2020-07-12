@@ -771,7 +771,7 @@ public abstract class NanoHttpD {
                         long bytesUpload = length - pending;
                         totalTime = System.currentTimeMillis() - timeStarted;
                         if (totalTime <= 0)
-                            totalSize = 1;
+                            totalTime = 1;
                         networkSpeed = bytesUpload / totalTime;
                         timeLeft = (totalSize - bytesUpload) / networkSpeed;
                         if (totalTime > 1000 * dlTimeQuotiant) {

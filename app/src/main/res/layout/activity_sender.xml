@@ -23,6 +23,7 @@
                 android:id="@+id/native_ad"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 app:gnt_template_type="@layout/gnt_small_template_view" />
             <!--        app:gnt_template_type="@layout/gnt_medium_template_view" />-->
 
@@ -45,26 +46,51 @@
             <!--            </com.airbnb.lottie.LottieAnimationView>-->
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:layout_width="100dp"
                 android:id="@+id/discoverRefreshFab"
+                android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:visibility="gone"
-                android:layout_centerInParent="true"
-                app:borderWidth="0dp"
-                app:elevation="6dp"
-                app:backgroundTint="@color/colorPrimary"
+                android:layout_marginTop="32dp"
+                android:layout_centerHorizontal="true"
                 android:src="@drawable/ic_refresh"
-                android:tint="@color/pureWhite" />
+                android:translationZ="104dp"
+                android:tint="@color/pureWhite"
+                android:visibility="gone"
+                app:backgroundTint="@color/colorPrimary"
+                app:borderWidth="0dp"
+                app:elevation="6dp" />
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/myDp"
+                android:translationZ="103dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/dp_boy_1"
+                app:civ_border_color="@color/colorPrimary"
+                app:civ_border_width="2dp"
+                app:civ_circle_background_color="@color/pureWhite" />
+
+            <TextView
+                android:id="@+id/myInfo"
+                android:translationZ="102dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/myDp"
+                android:layout_centerHorizontal="true"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="#F6F6F6"
+                android:text="Pavan" />
 
             <p2pdops.dopsender.views.ProgressBackground
                 android:id="@+id/rippleBackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:progress_color="@color/colorPrimary"
-                app:rb_duration="4000"
+                app:rb_duration="3500"
                 app:rb_mode="center"
                 app:rb_radius="25dp"
+                android:translationZ="100dp"
                 app:rb_rippleAmount="4"
                 app:rb_scale="10" />
 

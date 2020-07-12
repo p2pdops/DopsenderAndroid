@@ -14,11 +14,14 @@
         android:orientation="horizontal"
         android:padding="12dp">
 
-        <p2pdops.dopsender.views.RoundLetterView
-            android:id="@+id/letterView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:customTitle="P" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            app:civ_circle_background_color="@color/pureWhite"
+            android:id="@+id/userDp"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_marginStart="2dp"
+            android:src="@drawable/dp_boy_1"
+            android:visibility="visible" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -29,7 +32,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/deviceName"
+                android:id="@+id/userName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Name"
@@ -37,7 +40,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/deviceAddress"
+                android:id="@+id/deviceName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="4dp"

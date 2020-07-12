@@ -36,6 +36,14 @@
 -keepclassmembers class kotlin.Metadata {
     public <methods>;
 }
+
+-keepclassmembers enum * { *; }
+
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
 -assumenosideeffects class kotlin.jvm.internal.Intrinsics {
     static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
 }

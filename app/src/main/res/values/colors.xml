@@ -2,14 +2,19 @@
 <resources>
     <color name="black80">#CC000000</color>
     <color name="pureBlack">#000000</color>
+    <color name="mTextColor">#F2000000</color>
     <color name="pureWhite">#ffffff</color>
+    <color name="unPureWhite">#F3F3F3</color>
     <color name="colorPrimary">#2196f3</color>
     <color name="appBlue">#2196f3</color>
     <color name="colorPrimaryDark">#442c2e</color>
-    <color name="colorAccent">#1DE9B6</color>
+    <color name="colorAccent">#2196f3</color>
     <color name="pureGrey">#BF000000</color>
 
-    <color name="outLine">#000</color>
+
+    <color name="viewHelperBg">#ff9100</color>
+
+    <color name="outLine">#fff</color>
 
 
     <!--    val extensions = arrayOf("pdf", "csv", "doc", "docx", "xls", "xlsx")-->
@@ -45,7 +50,7 @@
 
     <!-- colors for button style -->
 
-    <color name="gradient_start_color">#4c84ff</color>
+    <color name="gradient_start_color">#2196f7</color>
     <color name="gradient_end_color">#18a3fe</color>
 
 

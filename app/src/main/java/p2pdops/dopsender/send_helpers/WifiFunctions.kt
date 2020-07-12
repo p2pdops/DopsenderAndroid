@@ -11,8 +11,6 @@ import android.net.wifi.p2p.WifiP2pManager
 import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceInfo
 import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceRequest
 import android.os.Build
-import android.os.Handler
-
 import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_sender.*
@@ -23,12 +21,15 @@ import p2pdops.dopsender.adapters.WifiDeviceData
 import p2pdops.dopsender.local_connection.ClientSocketThread
 import p2pdops.dopsender.local_connection.GroupOwnerSocketThread
 import p2pdops.dopsender.services.ForegroundFileService
+import p2pdops.dopsender.utils.getLocalDpKey
+import p2pdops.dopsender.utils.getLocalName
 import p2pdops.dopsender.utils.wifi.WifiConstants
 
 @SuppressLint("MissingPermission")
 fun SenderActivity.startMyPresenceService() {
     val record: MutableMap<String, String> = HashMap()
-    record[WifiConstants.PROP_NAME] = "Surya"
+    record[WifiConstants.PROP_USER_NAME] = getLocalName()
+    record[WifiConstants.PROP_USER_DP] = getLocalDpKey()
     record[WifiConstants.PROP_DEVICE_NAME] = Build.MODEL
 
     val service = WifiP2pDnsSdServiceInfo.newInstance(
@@ -65,11 +66,14 @@ fun SenderActivity.startDnsSdPresenceListeners() {
 
         }, { _: String?, record: Map<String?, String?>, device: WifiP2pDevice ->
 
-            Log.d(TAG, "${device.deviceName} is ${record[WifiConstants.PROP_TYPE]}")
+            Log.d(TAG, "${device.deviceName} is")
 
             val newRecord = WifiDeviceData(
                 macAddress = device.deviceAddress,
-                name = record[WifiConstants.PROP_DEVICE_NAME] ?: error("Device name error")
+                name = record[WifiConstants.PROP_USER_NAME]
+                    ?: error("Please report.. failed to get user name error! "),
+                dpKey = record[WifiConstants.PROP_USER_DP] ?: error("Dp error"),
+                deviceName = record[WifiConstants.PROP_DEVICE_NAME] ?: error("Device name error")
             )
 
             Log.d(TAG, "discoverLocalServices: discovered : $newRecord")

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,116 +7,154 @@
     android:orientation="vertical"
     tools:context=".ui.main_home.home.HomeFragment">
 
-
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lay1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/pureWhite"
+        android:background="@color/colorPrimary"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
-        android:paddingVertical="32dp">
+        android:paddingVertical="16dp">
 
 
         <de.hdodenhof.circleimageview.CircleImageView
+            app:civ_circle_background_color="@color/pureWhite"
             android:id="@+id/profile_image"
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@color/pureBlack"
-            android:visibility="gone"
-            app:civ_border_color="#FF000000"
-            app:civ_border_width="2dp" />
+            android:layout_height="106dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/dp_boy_1"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.141" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/change_btn_tv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:orientation="vertical">
+            android:layout_marginBottom="68dp"
+            android:text="(Change)"
+            android:textColor="@color/pureWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/profile_image"
+            app:layout_constraintStart_toStartOf="@+id/profile_image"
+            app:layout_constraintTop_toBottomOf="@+id/profile_image"
+            app:layout_constraintVertical_bias="0.277" />
 
-            <TextView
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Pavan" />
+        <TextView
+            android:id="@+id/app_user_name"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="12dp"
+            android:text="Pavan"
+            android:textColor="@color/pureWhite"
+            app:layout_constraintBottom_toTopOf="@+id/mobile_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/profile_image"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                style="@style/TextAppearance.AppCompat.Subhead"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Infinix Hot 8 | Modal name" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Internal Free Space :" />
-
-
-            <ProgressBar
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:progress="50"
-                android:progressTint="@color/colorPrimaryDark" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="External free Space :" />
-
-            <ProgressBar
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:progress="70"
-                android:progressTint="@color/colorPrimaryDark" />
+        <TextView
+            android:id="@+id/mobile_info"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_width="0dp"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="8dp"
+            android:text="Infinix Hot 8"
+            android:textColor="@color/pureWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/profile_image"
+            app:layout_constraintTop_toBottomOf="@+id/app_user_name" />
 
 
-            <Button
-                android:id="@+id/sendButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="32dp"
+        <TextView
+            android:id="@+id/mobile_info_device"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
+            android:text="Oxygen"
+            android:textColor="@color/pureWhite"
+            app:layout_constraintEnd_toEndOf="@+id/mobile_info"
+            app:layout_constraintStart_toEndOf="@+id/profile_image"
+            app:layout_constraintTop_toBottomOf="@+id/mobile_info" />
 
-                android:background="@drawable/home_btn"
-                android:letterSpacing="0.1"
-                android:text="Connect"
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:text="Free storage space - "
+            android:textColor="@color/pureWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/profile_image"
+            app:layout_constraintTop_toBottomOf="@+id/mobile_info_device" />
 
-                android:textColor="@drawable/home_btn_text"
-                android:textStyle="bold" />
+        <TextView
+            android:id="@+id/free_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:gravity="center"
+            android:text="50Gb"
+            android:textColor="@color/pureWhite"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textView4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textView4"
+            app:layout_constraintTop_toTopOf="@+id/textView4"
+            app:layout_constraintVertical_bias="0.0" />
 
-        </LinearLayout>
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="48dp"
+            android:background="@drawable/home_btn"
+            android:letterSpacing="0.1"
+            android:text="Connect"
+            android:textColor="@drawable/home_btn_text"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.399"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/lay2"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/home_items"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/native_ad"
-        android:layout_below="@+id/lay1"
-        android:background="@color/pureWhite"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ListView
-            android:scrollbarStyle="outsideOverlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="32dp" />
-
-
-    </LinearLayout>
-
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:padding="16dp" />
 
     <com.google.android.ads.nativetemplates.TemplateView
         android:id="@+id/native_ad"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:gnt_template_type="@layout/gnt_small_template_view" />
-</RelativeLayout>
+        app:gnt_template_type="@layout/gnt_small_template_view"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</LinearLayout>

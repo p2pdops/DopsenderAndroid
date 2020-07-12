@@ -49,17 +49,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:backgroundTint="@color/pureWhite"
+        app:backgroundTint="@color/colorPrimary"
         app:fabAlignmentMode="end"
         app:hideOnScroll="true">
 
+
         <com.robinhood.ticker.TickerView
-            app:ticker_defaultCharacterList="number"
             android:id="@+id/bottom_app_bar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Loading audios..."
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/pureWhite"
+            android:textSize="16sp"
+            app:ticker_defaultCharacterList="number" />
 
 
     </com.google.android.material.bottomappbar.BottomAppBar>
@@ -68,12 +71,12 @@
         android:id="@+id/send_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:backgroundTint="@color/pureWhite"
-        app:layout_anchor="@id/bottom_app_bar"
-        app:srcCompat="@drawable/ic_send"
         android:layout_margin="16dp"
-        android:textAlignment="center"
         android:text="Send"
-        app:tint="@color/pureBlack" />
+        android:textAlignment="center"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_anchor="@id/bottom_app_bar"
+        app:srcCompat="@drawable/ic_forward"
+        app:tint="@color/pureWhite" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

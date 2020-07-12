@@ -1,9 +1,12 @@
 package p2pdops.dopsender.send_helpers
 
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.ac_sender_connected_lay.*
 import p2pdops.dopsender.SenderActivity
 import p2pdops.dopsender.modals.*
+import p2pdops.dopsender.utils.slideDown
+import p2pdops.dopsender.utils.slideUp
 
 fun SenderActivity.setupMessagesRecycler() {
     connMessagesRecycler.setHasFixedSize(true)
@@ -29,12 +32,17 @@ fun SenderActivity.addEndMessageItem(item: ConnectionItem) {
 }
 
 fun SenderActivity.addSendMessageItem(item: ConnSendFileItem) {
+    if (tapAnimation.isVisible) tapAnimation.slideDown()
+    if (waiting.isVisible) waiting.slideDown()
+
     connMessagesList.add(item)
     connMessagesAdapter!!.notifyItemInserted(connMessagesList.lastIndex)
     connMessagesRecycler.smoothScrollToPosition(connMessagesAdapter!!.itemCount - 1);
 }
 
 fun SenderActivity.addReceiveMessageItem(item: ConnReceiveFileItem): Int {
+    if (tapAnimation.isVisible) tapAnimation.slideDown()
+    if (waiting.isVisible) waiting.slideDown()
     connMessagesList.add(item)
     connMessagesAdapter!!.notifyItemInserted(connMessagesList.lastIndex)
     connMessagesRecycler.smoothScrollToPosition(connMessagesAdapter!!.itemCount - 1)

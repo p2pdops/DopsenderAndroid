@@ -6,26 +6,45 @@
     android:layout_height="match_parent">
 
 
+    <TextView
+        android:id="@+id/waiting"
+        android:layout_marginTop="32dp"
+        android:text="Waiting for you to choose files..."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/tapAnimation"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="-32dp"
+        app:lottie_autoPlay="true"
+        android:layout_centerInParent="true"
+        app:lottie_fileName="tap.json"
+        app:lottie_loop="true"
+        app:lottie_repeatMode="reverse" />
+
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/connMessagesRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/options_id"
         android:clipToPadding="false"
-
         android:paddingHorizontal="12dp"
         android:paddingBottom="8dp"
         android:scrollbarStyle="outsideOverlay"
-
         app:reverseLayout="true" />
 
 
     <RelativeLayout
-        android:background="@color/pureWhite"
         android:id="@+id/options_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@color/pureWhite"
         android:orientation="vertical">
 
         <TextView
@@ -93,6 +112,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:gravity="center"
+                    app:ticker_defaultCharacterList="number"
                     android:text="20 % done"
                     android:textColor="@color/pureWhite"
                     android:textSize="16sp"

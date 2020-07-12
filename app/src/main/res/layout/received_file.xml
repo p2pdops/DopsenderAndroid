@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    android:paddingBottom="4dp"
+    android:foreground="?android:selectableItemBackground"
+    android:background="@color/pureWhite">
+
+    <p2pdops.dopsender.views.SquareImage
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="200dp"
+        android:minHeight="200dp"
+        android:padding="36dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/nameView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginEnd="50dp"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:paddingStart="16dp"
+        android:background="@color/pureWhite"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="Hello" />
+
+    <TextView
+        android:id="@+id/sizeView"
+        android:layout_width="50dp"
+        android:background="@color/pureWhite"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:gravity="center"
+        android:text="5 MB" />
+
+</FrameLayout>

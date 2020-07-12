@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:rotation="45"
+    android:padding="43dp"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:rotation="90"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="8dp"
+                android:layout_alignParentBottom="true"
+                android:rotation="180">
+                <ProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginLeft="3dp"
+                    android:id="@+id/dp_progress4"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:progressDrawable="@drawable/progress_drawable"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="8dp"
+            android:layout_alignParentBottom="true"
+            android:rotation="180">
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_marginLeft="3dp"
+                android:progress="50"
+                android:id="@+id/dp_progress3"
+                android:progressDrawable="@drawable/progress_drawable"
+                style="?android:attr/progressBarStyleHorizontal"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:rotation="90"
+            android:layout_height="match_parent">
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_marginLeft="3dp"
+                android:progress="100"
+                android:id="@+id/dp_progress2"
+                android:progressDrawable="@drawable/progress_drawable"
+                style="?android:attr/progressBarStyleHorizontal" />
+        </RelativeLayout>
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginLeft="3dp"
+            android:progress="100"
+            android:progressDrawable="@drawable/progress_drawable"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:id="@+id/dp_progress1"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_margin="4dp"
+            android:id="@+id/dp_card"
+            android:elevation="10dp"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:rotation="-45"
+                android:id="@+id/dp_addView"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Sample Inside Content"
+                    android:id="@+id/dp_text"
+                    android:gravity="center"
+                    android:textSize="24sp"/>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+
+</RelativeLayout>

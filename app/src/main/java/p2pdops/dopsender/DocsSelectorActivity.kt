@@ -2,29 +2,24 @@ package p2pdops.dopsender
 
 import android.app.Activity
 import android.content.Intent
-import android.os.*
+import android.graphics.Typeface
+import android.os.AsyncTask
+import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
-
+import com.getkeepsafe.taptargetview.TapTarget
+import com.getkeepsafe.taptargetview.TapTargetView
 import kotlinx.android.synthetic.main.activity_docs_selector.*
-
 import p2pdops.dopsender.modals.FolderInfo
-
-import p2pdops.dopsender.utils.hide
-import p2pdops.dopsender.utils.show
-import java.io.File
-
 import p2pdops.dopsender.pagers.DocsSelectorPagerAdapter
-import p2pdops.dopsender.utils.Constants
-
-import p2pdops.dopsender.utils.humanizeBytes
+import p2pdops.dopsender.utils.*
+import java.io.File
 
 
 class DocsSelectorActivity : AppCompatActivity() {
@@ -48,10 +43,41 @@ class DocsSelectorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_docs_selector)
 
-        send_fab.hide()
+        if (!getSendFabHelperShown()) {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            TapTargetView.showFor(this,
+                TapTarget.forView(
+                    send_fab,
+                    "To send...",
+                    "Click on this to send selected."
+                )
+                    .outerCircleColor(R.color.pureWhite) // Specify a color for the outer circle
+                    .outerCircleAlpha(0.98f) // Specify the alpha amount for the outer circle
+                    .targetCircleColor(R.color.unPureWhite) // Specify a color for the target circle
+                    .titleTextSize(20) // Specify the size (in sp) of the title text
+                    .titleTextColor(R.color.pureBlack) // Specify the color of the title text
+                    .descriptionTextSize(16) // Specify the size (in sp) of the description text
+                    .descriptionTextColor(R.color.pureBlack) // Specify the color of the description text
+                    .textColor(R.color.black80) // Specify a color for both the title and description text
+                    .textTypeface(Typeface.SANS_SERIF) // Specify a typeface for the text
+                    .dimColor(R.color.unPureWhite) // If set, will dim behind the view with 30% opacity of the given color
+                    .drawShadow(true) // Whether to draw a drop shadow or not
+                    .cancelable(true) // Whether tapping outside the outer circle dismisses the view
+                    .tintTarget(true) // Whether to tint the target view's color
+                    .transparentTarget(true) // Specify whether the target is transparent (displays the content underneath)
+                    .targetRadius(15),  // Specify the target radius (in dp)
+                object : TapTargetView.Listener() {
+                    override fun onTargetClick(view: TapTargetView?) {
+                        super.onTargetClick(view)
+                        Toast.makeText(
+                            this@DocsSelectorActivity,
+                            "Ready to go!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
+            setSendFabHelperShown()
+        } else send_fab.hide()
 
         FetchDocFoldersAsyncTask(this).execute()
 
@@ -249,8 +275,13 @@ class DocsSelectorActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Log.d(TAG, "onOptionsItemSelected: ")
-        return false
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {

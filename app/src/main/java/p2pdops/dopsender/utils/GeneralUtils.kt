@@ -10,10 +10,10 @@ import android.os.Build
 import android.view.View
 import androidx.core.content.ContextCompat
 import p2pdops.dopsender.R
+import p2pdops.dopsender.modals.FileType
 import java.text.CharacterIterator
 import java.text.StringCharacterIterator
 import java.util.*
-
 
 fun Activity.activeNetwork(): Boolean {
     val cm =
@@ -96,3 +96,5 @@ val docsColormap = mapOf(
     "xls" to R.color.color_xls,
     "xlsx" to R.color.color_xlsx
 )
+
+val fileTypes = FileType.values()
