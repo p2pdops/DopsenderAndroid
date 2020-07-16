@@ -3,7 +3,6 @@ package p2pdops.dopsender.services
 import android.util.Log
 
 import p2pdops.dopsender.interfaces.FileTransferStatusListener
-import p2pdops.dopsender.services.NanoHttpD
 import java.io.File
 import java.io.IOException
 

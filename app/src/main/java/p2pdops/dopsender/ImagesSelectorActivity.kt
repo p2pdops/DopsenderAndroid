@@ -10,7 +10,6 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
@@ -43,8 +42,6 @@ class ImagesSelectorActivity : AppCompatActivity(), Handler.Callback {
     private var selectedImages: ArrayList<File> = ArrayList()
 
     private var menu: Menu? = null
-
-    private val handler = Handler(this)
 
     private var totalSize = 0L
 

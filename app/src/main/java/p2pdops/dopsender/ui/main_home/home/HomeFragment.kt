@@ -2,14 +2,10 @@ package p2pdops.dopsender.ui.main_home.home
 
 import android.Manifest
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,10 +17,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
-import com.google.android.ads.nativetemplates.NativeTemplateStyle
-import com.google.android.gms.ads.AdLoader
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.ktx.get
+import com.google.firebase.remoteconfig.ktx.remoteConfig
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.item_home_item.view.*
 import p2pdops.dopsender.*
@@ -56,36 +51,36 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         sendButton = root.findViewById(R.id.sendButton)
 
-        MobileAds.initialize(requireActivity())
-        val adLoader = AdLoader.Builder(requireActivity(), getString(R.string.home_ad_id))
-            .forUnifiedNativeAd { unifiedNativeAd ->
-
-                val styles = NativeTemplateStyle.Builder()
-                    .withMainBackgroundColor(
-                        ColorDrawable(Color.parseColor("#ffffff"))
-                    )
-                    .build()
-
-                root.native_ad.setStyles(styles)
-                root.native_ad.setNativeAd(unifiedNativeAd)
-                root.native_ad.slideUp()
-                Log.d(TAG, "onCreateView: ad shown")
-            }
-            .build()
+        requireActivity().loadAd(root.native_ad)
 
         root.change_btn_tv.setOnClickListener {
             startActivity(Intent(context, NameChooseActivity::class.java))
         }
 
-        Handler(Looper.getMainLooper()).post {
-            adLoader.loadAd(AdRequest.Builder().build())
+        root.upComingFeatures.isSelected = true
+        root.suggest.setOnClickListener {
+            val emailAddress = Firebase.remoteConfig["dev_email"].asString()
+            val emailsubject = "Dopsender: Feature Suggestion"
+            val emailbody = "It would be better if\n..."
+
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.data = Uri.parse("mailto:")
+            intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(emailAddress))
+            intent.putExtra(Intent.EXTRA_SUBJECT, emailsubject)
+            intent.putExtra(Intent.EXTRA_TEXT, emailbody)
+            intent.type = "message/rfc822"
+            startActivity(Intent.createChooser(intent, "Choose email app..."))
         }
+
         root.app_user_name.text = context?.getLocalName()
 
         requireContext().getLocalDpRes().let { root.profile_image.setImageResource(it) }
         root.mobile_info.text = Build.MODEL
         root.mobile_info_device.text =
             Build.PRODUCT[0].toUpperCase() + Build.PRODUCT.substring(1, Build.PRODUCT.length)
+        if (Build.MODEL == Build.PRODUCT)
+            root.mobile_info.text = Build.MANUFACTURER
+
 
         val freeSpace = FileUtils.getAvailableInternalMemorySize()
 
@@ -201,7 +196,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         )
         if (EasyPermissions.hasPermissions(this.requireContext(), *perms)) {
             sendButton!!.setOnClickListener {
-                startActivity(Intent(requireContext(), SenderActivity::class.java))
+                startActivity(Intent(requireContext(), ShareActivity::class.java))
             }
         } else {
             EasyPermissions.requestPermissions(

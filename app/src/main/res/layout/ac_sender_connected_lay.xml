@@ -5,27 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <TextView
         android:id="@+id/waiting"
-        android:layout_marginTop="32dp"
-        android:text="Waiting for you to choose files..."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"/>
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/tapAnimation"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="-32dp"
-        app:lottie_autoPlay="true"
         android:layout_centerInParent="true"
-        app:lottie_fileName="tap.json"
-        app:lottie_loop="true"
-        app:lottie_repeatMode="reverse" />
-
-
+        android:paddingBottom="128dp"
+        android:textStyle="bold"
+        android:text="Choose files from below!" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/connMessagesRecycler"
@@ -34,12 +21,13 @@
         android:layout_above="@+id/options_id"
         android:clipToPadding="false"
         android:paddingHorizontal="12dp"
-        android:paddingBottom="8dp"
+        android:paddingVertical="16dp"
         android:scrollbarStyle="outsideOverlay"
         app:reverseLayout="true" />
 
 
-    <RelativeLayout
+    <LinearLayout
+        android:layout_marginBottom="0.1dp"
         android:id="@+id/options_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,36 +35,47 @@
         android:background="@color/pureWhite"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv"
-            style="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:background="@drawable/pick_title"
-            android:gravity="center"
-            android:paddingHorizontal="8dp"
-            android:text="Pick items " />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/sendOptionsRecycler"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_toEndOf="@+id/tv" />
+            android:layout_height="50dp" />
 
         <FrameLayout
+            android:background="@color/colorPrimary"
+            android:id="@+id/tap_select_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+
+            <TextView
+                android:textColor="@color/pureWhite"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp"
+                android:text="Select files from above menu"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+
+        </FrameLayout>
+
+        <!---->
+        <FrameLayout
+            android:layout_marginTop="0.1dp"
             android:id="@+id/send_progress_bar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@+id/sendOptionsRecycler">
+            android:layout_height="50dp">
 
             <p2pdops.dopsender.views.ProgressBackground
                 android:id="@+id/sendRippleBackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                app:progress_color="@color/pureGrey"
+                app:progress_color="@color/pureWhite"
                 app:rb_duration="2000"
                 app:rb_end_alpha="0.97"
+                app:rb_type="strokeRipple"
                 app:rb_mode="start"
                 app:rb_radius="15dp"
                 app:rb_rippleAmount="3"
@@ -85,6 +84,7 @@
             </p2pdops.dopsender.views.ProgressBackground>
 
             <LinearLayout
+                android:background="@color/colorPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -99,11 +99,9 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="16dp"
                     android:singleLine="true"
-
                     android:text="Sending:"
                     android:textColor="@color/pureWhite"
-
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <com.robinhood.ticker.TickerView
@@ -112,11 +110,11 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:gravity="center"
-                    app:ticker_defaultCharacterList="number"
-                    android:text="20 % done"
+                    android:text="...."
                     android:textColor="@color/pureWhite"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:ticker_defaultCharacterList="number" />
 
 
                 <com.robinhood.ticker.TickerView
@@ -125,26 +123,28 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:text="~2 min left"
+                    android:text="~almost.."
                     android:textColor="@color/pureWhite"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:ticker_defaultCharacterList="number" />
             </LinearLayout>
         </FrameLayout>
 
         <FrameLayout
+            android:layout_marginTop="0.1dp"
             android:id="@+id/receive_progress_bar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@+id/send_progress_bar">
+            android:layout_height="50dp">
 
             <p2pdops.dopsender.views.ProgressBackground
                 android:id="@+id/receiveRippleBackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                app:progress_color="@color/pureGrey"
+                app:progress_color="@color/pureWhite"
                 app:rb_duration="2000"
+                app:rb_type="strokeRipple"
                 app:rb_end_alpha="0.97"
                 app:rb_mode="end"
                 app:rb_radius="15dp"
@@ -152,11 +152,11 @@
                 app:rb_scale="55" />
 
             <LinearLayout
+                android:background="@color/colorPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:weightSum="8">
-
 
                 <TextView
                     android:id="@+id/receivingFileName"
@@ -181,10 +181,11 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:text="20 % done"
+                    android:text="..."
                     android:textColor="@color/pureWhite"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:ticker_defaultCharacterList="number" />
 
                 <com.robinhood.ticker.TickerView
                     android:id="@+id/receiveEta"
@@ -192,34 +193,15 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:text="~2 min left"
+                    android:text="~almost"
                     android:textColor="@color/pureWhite"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:ticker_defaultCharacterList="number" />
 
             </LinearLayout>
         </FrameLayout>
 
-
-        <FrameLayout
-            android:id="@+id/tap_select_bar"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@+id/receive_progress_bar">
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="16dp"
-                android:text="Select files from above menu"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-
-        </FrameLayout>
-
-    </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>
 

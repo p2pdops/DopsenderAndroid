@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:tools="http://schemas.android.com/tools"
+<merge
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
   <com.google.android.gms.ads.formats.UnifiedNativeAdView
@@ -107,8 +107,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                ></TextView>
+                app:layout_constraintTop_toTopOf="parent" />
           </LinearLayout>
           <LinearLayout
               android:id="@+id/row_two"
@@ -158,6 +157,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
             </RatingBar>
+
             <TextView
                 android:id="@+id/secondary"
                 android:background="@color/gnt_white"
@@ -174,8 +174,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ad_notification_view"
-                app:layout_constraintTop_toTopOf="parent"
-                ></TextView>
+                app:layout_constraintTop_toTopOf="parent" />
 
           </LinearLayout>
 

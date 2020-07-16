@@ -18,13 +18,13 @@
 
 
         <de.hdodenhof.circleimageview.CircleImageView
-            app:civ_circle_background_color="@color/pureWhite"
             android:id="@+id/profile_image"
             android:layout_width="100dp"
             android:layout_height="106dp"
             android:layout_marginStart="4dp"
             android:src="@drawable/dp_boy_1"
             android:visibility="visible"
+            app:civ_circle_background_color="@color/pureWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -64,12 +64,12 @@
             android:id="@+id/mobile_info"
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="0dp"
-            android:textSize="16sp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="8dp"
             android:text="Infinix Hot 8"
             android:textColor="@color/pureWhite"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/profile_image"
@@ -124,8 +124,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginHorizontal="8dp"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="48dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/home_btn"
             android:letterSpacing="0.1"
             android:text="Connect"
@@ -148,12 +148,37 @@
         android:clipToPadding="false"
         android:padding="16dp" />
 
-    <com.google.android.ads.nativetemplates.TemplateView
-        android:id="@+id/native_ad"
-        android:visibility="gone"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:background="@color/pureWhite">
+
+        <TextView
+            android:id="@+id/upComingFeatures"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:padding="4dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="More exciting features coming soon!" />
+
+        <TextView
+            android:id="@+id/suggest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="Suggest a feature"
+            android:textColor="@color/colorPrimary" />
+    </LinearLayout>
+
+    <com.google.android.ads.nativetemplates.TemplateView
+        android:id="@+id/native_ad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
         app:gnt_template_type="@layout/gnt_small_template_view"
         app:layout_constraintBottom_toBottomOf="parent" />
 

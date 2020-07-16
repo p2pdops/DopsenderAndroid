@@ -43,6 +43,7 @@
                 android:paddingVertical="4dp"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
+
                 android:text="File Name.txt"
                 android:textStyle="bold" />
 
@@ -54,7 +55,7 @@
 
                 <TextView
                     android:id="@+id/sendFileStatus"
-                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    style="@style/TextAppearance.AppCompat.SearchResult.Title"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -62,7 +63,7 @@
                     android:paddingHorizontal="4dp"
                     android:paddingVertical="4dp"
                     android:text="SENDING"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/sendFileType"

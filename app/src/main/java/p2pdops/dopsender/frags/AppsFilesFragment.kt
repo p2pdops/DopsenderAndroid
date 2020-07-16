@@ -78,7 +78,7 @@ class AppsFilesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true)
         val rootView = inflater.inflate(R.layout.frag_apps, container, false)
         viewModel = ViewModelProvider(this).get(AppsViewModel::class.java)
 
@@ -179,8 +179,8 @@ class AppsFilesFragment : Fragment() {
                     PackageManager.GET_META_DATA
                 )?.let {
 
-                    it.applicationInfo.sourceDir = filePath;
-                    it.applicationInfo.publicSourceDir = filePath;
+                    it.applicationInfo.sourceDir = filePath
+                    it.applicationInfo.publicSourceDir = filePath
 
                     val appName = it.applicationInfo.loadLabel(pm).toString()
 

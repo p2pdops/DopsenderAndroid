@@ -3,7 +3,6 @@ package p2pdops.dopsender.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import p2pdops.dopsender.modals.AppData
-import java.io.File
 
 class AppsViewModel : ViewModel() {
 

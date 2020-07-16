@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import kotlinx.android.synthetic.main.layout_screen.view.*
 import p2pdops.dopsender.R

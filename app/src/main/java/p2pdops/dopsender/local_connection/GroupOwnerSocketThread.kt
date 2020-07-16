@@ -69,6 +69,7 @@ class GroupOwnerSocketThread(private val handler: Handler) : Thread() {
     }
 
     fun closeSocketAndKillThisThread() {
+        Log.d(TAG, "closeSocketAndKillThisThread: called")
         if (serverSocket != null && !serverSocket!!.isClosed) {
             try {
                 serverSocket!!.close()

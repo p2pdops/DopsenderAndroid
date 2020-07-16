@@ -21,7 +21,7 @@ class ClientSocketThread(
 
     override fun run() {
         socket = Socket()
-        socket?.bind(null);
+        socket?.bind(null)
         try {
             socket!!.connect(
                 InetSocketAddress(
@@ -45,6 +45,7 @@ class ClientSocketThread(
     }
 
     fun closeSocketAndKillThisThread() {
+        Log.d(TAG, "closeSocketAndKillThisThread: called")
         if (socket != null && !socket!!.isClosed) {
             try {
                 socket!!.close()

@@ -76,7 +76,7 @@ class ImagesFolderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true)
         val rootView = inflater.inflate(R.layout.frag_images, container, false)
         viewModel = ViewModelProvider(this).get(ImagesViewModel::class.java)
 

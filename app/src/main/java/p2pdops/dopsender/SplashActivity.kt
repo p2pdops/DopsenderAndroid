@@ -2,7 +2,6 @@ package p2pdops.dopsender
 
 import android.content.Context
 import android.content.Intent
-import android.net.wifi.p2p.WifiP2pManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper

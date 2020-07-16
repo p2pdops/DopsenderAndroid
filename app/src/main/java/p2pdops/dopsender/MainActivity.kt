@@ -15,6 +15,12 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.ktx.get
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import p2pdops.dopsender.utils.notifyUpdate
 
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     private var opened: Boolean = false
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    private lateinit var remoteConfig: FirebaseRemoteConfig
 
     companion object {
         private const val TAG = "MainActivity"
@@ -35,6 +42,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val configSettings = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 3600
+        }
+        remoteConfig = Firebase.remoteConfig
+
+        remoteConfig.setConfigSettingsAsync(configSettings)
+        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+        remoteConfig.fetchAndActivate().addOnCompleteListener {
+            if (remoteConfig["current_version_code"].asLong().toInt() > BuildConfig.VERSION_CODE) {
+                notifyUpdate(remoteConfig)
+            }
+        }
+
         mPublisherInterstitialAd = PublisherInterstitialAd(this)
         mPublisherInterstitialAd?.adUnitId = getString(R.string.reward_ad_id)
         mPublisherInterstitialAd?.loadAd(PublisherAdRequest.Builder().build())

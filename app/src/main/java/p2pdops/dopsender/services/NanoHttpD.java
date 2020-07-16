@@ -3,6 +3,8 @@ package p2pdops.dopsender.services;
 
 import android.util.Log;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.Closeable;
@@ -27,6 +29,7 @@ import java.net.SocketTimeoutException;
 import java.net.URLDecoder;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,9 +44,8 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 
+import p2pdops.dopsender.downloader.DownloadResult;
 import p2pdops.dopsender.interfaces.FileTransferStatusListener;
-
-import static p2pdops.dopsender.utils.GeneralUtilsKt.humanizeBytes;
 
 
 /**
@@ -150,7 +152,7 @@ public abstract class NanoHttpD {
         setAsyncRunner(new DefaultAsyncRunner());
     }
 
-    private static final void safeClose(Closeable closeable) {
+    private static void safeClose(Closeable closeable) {
         if (closeable != null) {
             try {
                 closeable.close();
@@ -159,7 +161,7 @@ public abstract class NanoHttpD {
         }
     }
 
-    private static final void safeClose(Socket closeable) {
+    private static void safeClose(Socket closeable) {
         if (closeable != null) {
             try {
                 closeable.close();
@@ -168,7 +170,7 @@ public abstract class NanoHttpD {
         }
     }
 
-    private static final void safeClose(ServerSocket closeable) {
+    private static void safeClose(ServerSocket closeable) {
         if (closeable != null) {
             try {
                 closeable.close();
@@ -312,7 +314,6 @@ public abstract class NanoHttpD {
      * @param headers Header entries, percent decoded
      * @return HTTP response, see class Response for arrow_down_drop
      */
-    @Deprecated
     public Response serve(String uri, Method method, Map<String, String> headers, Map<String, String> parms,
                           Map<String, String> files) {
         return new Response(Response.Status.NOT_FOUND, MIME_PLAINTEXT, "Not Found");
@@ -608,11 +609,10 @@ public abstract class NanoHttpD {
 
 
         private long totalSize;
-        private long timeStarted, networkSpeed, totalTime = 1, timeLeft;
+        private long timeStarted;
         private long dlTimeQuotiant = 1;
         private FileTransferStatusListener fileUploadStatusListener;
         private File targetFile;
-        private String clientIp;
 
         /**
          * Default constructor: response = HTTP_OK, mime = MIME_HTML and your supplied message
@@ -630,7 +630,6 @@ public abstract class NanoHttpD {
             this.data = new FileInputStream(target);
             this.totalSize = target.length();
             this.fileUploadStatusListener = clientsFileUploadStatus;
-            this.clientIp = clientIp;
             this.targetFile = target;
         }
 
@@ -646,11 +645,7 @@ public abstract class NanoHttpD {
         public Response(Status status, String mimeType, String txt) {
             this.status = status;
             this.mimeType = mimeType;
-            try {
-                this.data = txt != null ? new ByteArrayInputStream(txt.getBytes("UTF-8")) : null;
-            } catch (UnsupportedEncodingException uee) {
-                uee.printStackTrace();
-            }
+            this.data = txt != null ? new ByteArrayInputStream(txt.getBytes(StandardCharsets.UTF_8)) : null;
         }
 
         /**
@@ -690,7 +685,9 @@ public abstract class NanoHttpD {
                     }
                 }
 
-                sendConnectionHeaderIfNotAlreadyPresent(pw, header);
+                if (header != null) {
+                    sendConnectionHeaderIfNotAlreadyPresent(pw, header);
+                }
 
                 if (requestMethod != Method.HEAD && chunkedTransfer) {
                     sendAsChunked(outputStream, pw);
@@ -705,9 +702,8 @@ public abstract class NanoHttpD {
                 safeClose(data);
             } catch (IOException ioe) {
                 ioe.printStackTrace();
-                // Couldn't write? No can do.
                 if (null != fileUploadStatusListener)
-                    fileUploadStatusListener.onBytesTransferCancelled(clientIp, totalTime > 0 ? ioe.getMessage() : null, targetFile.getPath());
+                    fileUploadStatusListener.onUploadProgress(new DownloadResult.Error(targetFile.getPath(), ioe));
             }
         }
 
@@ -748,18 +744,20 @@ public abstract class NanoHttpD {
                 outputStream.write(buff, 0, read);
                 outputStream.write(CRLF);
             }
-            outputStream.write(String.format("0\r\n\r\n").getBytes());
+            outputStream.write("0\r\n\r\n".getBytes());
         }
 
         private void sendAsFixedLength(OutputStream outputStream, int pending) throws IOException {
             if (requestMethod != Method.HEAD && data != null) {
                 int BUFFER_SIZE = 16 * 1024;
                 byte[] buff = new byte[BUFFER_SIZE];
+                int percentage;
                 if (null != fileUploadStatusListener) {
                     timeStarted = System.currentTimeMillis();
-                    fileUploadStatusListener.onBytesTransferStarted(clientIp, targetFile.getCanonicalPath());
+                    fileUploadStatusListener.onUploadProgress(new DownloadResult.Started());
                 }
                 long length = targetFile.length();
+                boolean sentStarted = false;
                 while (pending > 0) {
                     int read = data.read(buff, 0, (Math.min(pending, BUFFER_SIZE)));
                     if (read <= 0) {
@@ -769,21 +767,29 @@ public abstract class NanoHttpD {
                     pending -= read;
                     if (null != fileUploadStatusListener) {
                         long bytesUpload = length - pending;
-                        totalTime = System.currentTimeMillis() - timeStarted;
+                        long totalTime = System.currentTimeMillis() - timeStarted;
                         if (totalTime <= 0)
                             totalTime = 1;
-                        networkSpeed = bytesUpload / totalTime;
-                        timeLeft = (totalSize - bytesUpload) / networkSpeed;
-                        if (totalTime > 1000 * dlTimeQuotiant) {
+                        long networkSpeed = bytesUpload / totalTime;
+                        long eta = (totalSize - bytesUpload) / networkSpeed;
+                        if (totalTime > 1250 * dlTimeQuotiant) {
+                            if (!sentStarted) {
+                                if (null != fileUploadStatusListener)
+                                    fileUploadStatusListener.onUploadProgress(new DownloadResult.DownloadStarted());
+                                sentStarted = true;
+                            }
+
                             dlTimeQuotiant++;
-                            //humanizeBytes(networkSpeed, 2) + " / s" is speed
-                            fileUploadStatusListener.onBytesTransferProgress(clientIp, targetFile.getCanonicalPath(), totalSize, timeLeft, null, bytesUpload, (int) (((bytesUpload) / (1.0f * totalSize)) * 100));
+                            percentage = (int) (bytesUpload / (1.0f * length) * 100);
+                            if (fileUploadStatusListener != null) {
+                                fileUploadStatusListener.onUploadProgress(new DownloadResult.Progress(percentage, eta));
+                            }
                         }
 
                     }
                 }
                 if (null != fileUploadStatusListener)
-                    fileUploadStatusListener.onBytesTransferCompleted(clientIp, targetFile.getCanonicalPath());
+                    fileUploadStatusListener.onUploadProgress(new DownloadResult.Success());
             }
         }
 
@@ -933,7 +939,7 @@ public abstract class NanoHttpD {
             this.tempFileManager = tempFileManager;
             this.inputStream = new PushbackInputStream(inputStream, BUFF_SIZE);
             this.outputStream = outputStream;
-            String remoteIp = inetAddress.isLoopbackAddress() || inetAddress.isAnyLocalAddress() ? "127.0.0.1" : inetAddress.getHostAddress().toString();
+            String remoteIp = inetAddress.isLoopbackAddress() || inetAddress.isAnyLocalAddress() ? "127.0.0.1" : inetAddress.getHostAddress();
             headers = new HashMap<String, String>();
 
             headers.put("remote-addr", remoteIp);
@@ -1085,7 +1091,7 @@ public abstract class NanoHttpD {
 
                         String boundaryStartString = "boundary=";
                         int boundaryContentStart = contentTypeHeader.indexOf(boundaryStartString) + boundaryStartString.length();
-                        String boundary = contentTypeHeader.substring(boundaryContentStart, contentTypeHeader.length());
+                        String boundary = contentTypeHeader.substring(boundaryContentStart);
                         if (boundary.startsWith("\"") && boundary.endsWith("\"")) {
                             boundary = boundary.substring(1, boundary.length() - 1);
                         }
@@ -1095,7 +1101,7 @@ public abstract class NanoHttpD {
                         // Handle application/x-www-form-urlencoded
                         String postLine = "";
                         StringBuilder postLineBuffer = new StringBuilder();
-                        char pbuf[] = new char[512];
+                        char[] pbuf = new char[512];
                         int read = in.read(pbuf);
                         while (read >= 0 && !postLine.endsWith("\r\n")) {
                             postLine = String.valueOf(pbuf, 0, read);
@@ -1449,6 +1455,7 @@ public abstract class NanoHttpD {
             }
         }
 
+        @NotNull
         @Override
         public Iterator<String> iterator() {
             return cookies.keySet().iterator();

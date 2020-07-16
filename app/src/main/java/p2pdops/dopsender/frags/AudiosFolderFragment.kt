@@ -3,7 +3,6 @@ package p2pdops.dopsender.frags
 import android.app.Activity
 import android.os.AsyncTask
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -54,7 +53,6 @@ class AudiosFolderFragment : Fragment() {
             }
         }
 
-        val extensions = arrayOf("3gp", "3gp2", "aiff", "mp3", "m4a", "amr", "wav", "ogg", "aac")
     }
 
 
@@ -80,7 +78,7 @@ class AudiosFolderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true)
         val rootView = inflater.inflate(R.layout.frag_audios, container, false)
         viewModel = ViewModelProvider(this).get(AudiosViewModel::class.java)
 

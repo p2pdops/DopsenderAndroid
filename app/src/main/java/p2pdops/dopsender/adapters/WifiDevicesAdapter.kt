@@ -4,13 +4,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_wifi_device.view.*
 import p2pdops.dopsender.R
-import p2pdops.dopsender.SenderActivity
-import p2pdops.dopsender.send_helpers.forceConnect
+import p2pdops.dopsender.ShareActivity
 import p2pdops.dopsender.utils.bulge
 import p2pdops.dopsender.utils.getDpForKey
+import p2pdops.dopsender.utils.shrink
+import p2pdops.dopsender.zshare_helpers.connectToMacAddress
 
 
 data class WifiDeviceData(
@@ -23,7 +25,7 @@ data class WifiDeviceData(
 class WifiDevicesHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
 class WifiDevicesAdapter(
-    private val c: SenderActivity,
+    private val c: ShareActivity,
     private var wifiDevices: ArrayList<WifiDeviceData>
 ) :
     RecyclerView.Adapter<WifiDevicesHolder>() {
@@ -55,7 +57,12 @@ class WifiDevicesAdapter(
         holder.itemView.userName.text = wifiDevice.name
         holder.itemView.deviceName.text = wifiDevice.deviceName
         holder.itemView.setOnClickListener {
-            c.forceConnect(wifiDevice.macAddress)
+            c.connectToMacAddress(wifiDevice.macAddress) {
+                holder.itemView.connectingLottie.shrink()
+                // some error
+                if(it != -1)
+                Toast.makeText(c, "Please retry!", Toast.LENGTH_SHORT).show()
+            }
             holder.itemView.connectingLottie.bulge()
         }
     }

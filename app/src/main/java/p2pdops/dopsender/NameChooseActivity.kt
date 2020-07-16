@@ -1,21 +1,18 @@
 package p2pdops.dopsender
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.crashlytics.internal.common.CommonUtils.hideKeyboard
 import kotlinx.android.synthetic.main.activity_name_choose.*
 import kotlinx.android.synthetic.main.dp_item.view.*
 import p2pdops.dopsender.utils.*
@@ -45,17 +42,12 @@ class NameChooseActivity : AppCompatActivity(), EasyPermissions.PermissionCallba
         getLocalDpRes().let { circleImageView.setImageResource(it) }
         getLocalName().let { nameInp.setText(it) }
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            val inputMethodManager: InputMethodManager =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.toggleSoftInputFromWindow(
-                nameInp.applicationWindowToken,
-                InputMethodManager.SHOW_FORCED,
-                0
-            )
-            nameInp.requestFocus()
-        }, 2000)
 
+        nameInp.setOnFocusChangeListener { v: View, hasFocus: Boolean ->
+            if (!hasFocus) {
+                hideKeyboard(this, v)
+            }
+        }
 
         dps_recycler.setHasFixedSize(true)
         dps_recycler.layoutManager = GridLayoutManager(this, 4)

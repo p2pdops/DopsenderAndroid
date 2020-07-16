@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#efefef"
+    android:keepScreenOn="true"
+    tools:context=".ShareActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:showIn="@layout/activity_main">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ad_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.ads.nativetemplates.TemplateView
+                android:id="@+id/native_ad"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:gnt_template_type="@layout/gnt_small_template_view" />
+            <!--        app:gnt_template_type="@layout/gnt_medium_template_view" />-->
+
+        </androidx.cardview.widget.CardView>
+
+        <RelativeLayout
+            android:background="@color/colorPrimary"
+            android:id="@+id/_disConnectedLay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/discoverRefreshFab"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="32dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_refresh"
+                android:translationZ="104dp"
+                android:tint="@color/colorPrimary"
+                android:visibility="gone"
+                app:backgroundTint="@color/pureWhite"
+                app:borderWidth="0dp"
+                app:elevation="6dp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/myDp"
+                android:translationZ="103dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/dp_boy_1"
+                app:civ_border_color="@color/pureWhite"
+                app:civ_border_width="2dp"
+                app:civ_circle_background_color="@color/pureWhite" />
+
+            <TextView
+                android:id="@+id/myInfo"
+                android:translationZ="102dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/myDp"
+                android:layout_centerHorizontal="true"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="#F6F6F6"
+                android:text="Pavan" />
+
+            <p2pdops.dopsender.views.ProgressBackground
+                android:id="@+id/rippleBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:progress_color="@color/pureWhite"
+                app:rb_type="strokeRipple"
+                app:rb_duration="3500"
+                app:rb_mode="center"
+                app:rb_radius="25dp"
+                android:translationZ="100dp"
+                app:rb_rippleAmount="4"
+                app:rb_scale="10" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/ac_sender_connected_lay" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/discoverDevicesSheet"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#fff"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="300dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="2"
+                android:text="Discovered devices"
+                android:textColor="#444"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="(Tap to connect)"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/devicesRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

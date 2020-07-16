@@ -25,15 +25,15 @@ class ProgressBackground : RelativeLayout {
     private var rippleType = 0
     private var rippleMode = 0
     private var paint: Paint? = null
-    var isRippleAnimationRunning = false
-        private set
+    private var isRippleAnimationRunning = false
+
     private var animatorSet: AnimatorSet? = null
     private var animatorList: ArrayList<Animator>? = null
     private var rippleParams: LayoutParams? = null
     private val rippleViewList =
         ArrayList<RippleView>()
 
-    constructor(context: Context?) : super(context) {}
+    constructor(context: Context?) : super(context)
     constructor(
         context: Context,
         attrs: AttributeSet?
@@ -165,8 +165,7 @@ class ProgressBackground : RelativeLayout {
         View(context) {
         override fun onDraw(canvas: Canvas) {
             val radius = width.coerceAtMost(height) / 2
-            canvas.drawCircle(
-                radius.toFloat(), radius.toFloat(), radius - rippleStrokeWidth,
+            canvas.drawCircle(radius.toFloat(), radius.toFloat(), radius - rippleStrokeWidth,
                 paint!!
             )
         }

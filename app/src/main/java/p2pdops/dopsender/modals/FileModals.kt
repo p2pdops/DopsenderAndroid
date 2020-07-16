@@ -1,15 +1,11 @@
 package p2pdops.dopsender.modals
 
 import android.graphics.drawable.Drawable
-import android.os.Parcel
-import android.os.Parcelable
 import java.io.File
 
 data class FolderInfo(val name: String, val path: String, val lastModified: Long)
 
 enum class ConnectionMessageType {
-    INIT,
-    END,
     SEND_FILE,
     RECEIVE_FILE,
 }
@@ -28,10 +24,6 @@ enum class ConnFileStatusTypes {
 }
 
 sealed class ConnectionItem(open val type: ConnectionMessageType, open val timestamp: Long)
-
-data class ConnStatus(override val type: ConnectionMessageType, override val timestamp: Long) :
-    ConnectionItem(type, timestamp)
-
 
 data class  ConnSendFileItem(
     override val type: ConnectionMessageType,
@@ -57,8 +49,7 @@ data class FileData(
     val type: FileType,
     val fileName: String,
     var filePath: String,
-    val fileSize: Long,
-    val extraData: String? = null
+    val fileSize: Long
 )
 
 data class AppData(

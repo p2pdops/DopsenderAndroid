@@ -23,7 +23,7 @@ class MessagesRunnable(private val socket: Socket, private val handler: Handler)
             inputStream = socket.getInputStream()
             outputStream = socket.getOutputStream()
 
-            handler.obtainMessage(WConfiguration.FIRST_SHAKE_HAND, this).sendToTarget()
+            handler.obtainMessage(WConfiguration.SOCKETS_CONNECTED, this).sendToTarget()
 
             val buffer = ByteArray(1024)
             var bufferLength: Int
@@ -39,7 +39,7 @@ class MessagesRunnable(private val socket: Socket, private val handler: Handler)
 
                         //HANDLE_OBTAINED_MESSAGE
                         handler.obtainMessage(
-                            WConfiguration.HANDLE_OBTAINED_MESSAGE,
+                            WConfiguration.HANDLE_RECEIVED_MESSAGE,
                             bufferLength,
                             -1,
                             buffer

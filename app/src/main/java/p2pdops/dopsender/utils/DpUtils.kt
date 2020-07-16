@@ -1,6 +1,5 @@
 package p2pdops.dopsender.utils
 
-import android.content.Context
 import p2pdops.dopsender.R
 
 val dpsMap = mapOf(

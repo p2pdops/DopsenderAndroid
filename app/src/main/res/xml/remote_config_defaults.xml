@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>dev_email</key>
+        <value>p2pdops@gmail.com</value>
+    </entry>
+    <entry>
+        <key>current_version</key>
+        <value>1</value>
+    </entry>
+    <entry>
+        <key>breaking_changes</key>
+        <value>[]</value>
+    </entry>
+
+    <entry>
+        <key>current_version_name</key>
+        <value>0.0.2</value>
+    </entry>
+        <entry>
+        <key>current_version_size</key>
+        <value>4 MB</value>
+    </entry>
+    <entry>
+        <key>change_log</key>
+        <value>Improved Performance</value>
+    </entry>
+</defaultsMap>

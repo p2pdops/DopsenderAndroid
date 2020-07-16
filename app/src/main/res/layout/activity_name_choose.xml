@@ -8,7 +8,6 @@
     android:paddingHorizontal="32dp"
     tools:context=".NameChooseActivity">
 
-
     <TextView
         android:id="@+id/hi_"
         android:layout_width="wrap_content"
@@ -60,16 +59,17 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="36dp"
-        android:layout_marginEnd="4dp"
-        android:background="@drawable/bg_name_edit_text"
+        android:backgroundTint="@color/pureWhite"
         android:hint="Enter your name..."
-        android:inputType="textPersonName"
+        android:imeOptions="actionDone"
+        android:inputType="textPersonName|textCapWords"
         android:lines="1"
         android:paddingHorizontal="2dp"
         android:textColor="@color/pureWhite"
         android:textColorHint="#80FFFFFF"
-        android:textCursorDrawable="@null"
         android:textStyle="bold"
+
+        android:theme="@style/NameInpTheme"
         app:layout_constraintBottom_toBottomOf="@+id/circleImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/circleImageView"

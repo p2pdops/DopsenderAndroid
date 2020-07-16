@@ -1,10 +1,10 @@
-package p2pdops.dopsender.send_helpers
+package p2pdops.dopsender.zshare_helpers
 
 import android.app.Activity
 import android.content.Intent
 import android.util.Log
-import p2pdops.dopsender.SenderActivity
-import p2pdops.dopsender.SenderActivity.Companion.TAG
+import p2pdops.dopsender.ShareActivity
+import p2pdops.dopsender.ShareActivity.Companion.TAG
 import p2pdops.dopsender.modals.*
 import p2pdops.dopsender.utils.*
 import p2pdops.dopsender.utils.Constants.Companion.APPS
@@ -12,7 +12,7 @@ import p2pdops.dopsender.utils.Constants.Companion.FILES
 import java.io.File
 import java.lang.Exception
 
-fun SenderActivity.handActivityResult(
+fun ShareActivity.handActivityResult(
     requestCode: Int,
     resultCode: Int,
     data: Intent?
@@ -24,19 +24,7 @@ fun SenderActivity.handActivityResult(
             val apps = data?.getSerializableExtra(APPS) as ArrayList<AppData>
             for (app in apps) {
                 Log.d(TAG, "handActivityResult: ${app.appName}")
-                addSendMessageItem(
-                    ConnSendFileItem(
-                        type = ConnectionMessageType.SEND_FILE,
-                        timestamp = System.currentTimeMillis(),
-                        fileType = FileType.Apps,
-                        fileName = app.appName + ".apk",
-                        filePath = app.canonicalPath,
-                        status = ConnFileStatusTypes.WAITING,
-                        extraData = app.appPackageName
-                    )
-                ).also {
-                    addFileToQue(app, FileType.Apps)
-                }
+                mService?.addSendFileToQue(getSendItemFromAppData(app))
             }
         } else if (
             requestCode == RESULT_CODE_INPUT_DOCS ||
@@ -58,18 +46,8 @@ fun SenderActivity.handActivityResult(
                         throw Exception("Impossible!")
                     }
                 }
-                addSendMessageItem(
-                    ConnSendFileItem(
-                        type = ConnectionMessageType.SEND_FILE,
-                        timestamp = System.currentTimeMillis(),
-                        fileType = type,
-                        fileName = file.name,
-                        filePath = file.canonicalPath,
-                        status = ConnFileStatusTypes.WAITING
-                    )
-                ).also {
-                    addFileToQue(file, type)
-                }
+
+                mService?.addSendFileToQue(getSendItemFromFileAndType(file, type))
             }
 
         }

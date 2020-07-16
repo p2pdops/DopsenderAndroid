@@ -23,10 +23,7 @@ import kotlinx.android.synthetic.main.received_file.view.*
 import p2pdops.dopsender.BuildConfig
 import p2pdops.dopsender.R
 import p2pdops.dopsender.modals.FileType
-import p2pdops.dopsender.utils.ApkInstaller
-import p2pdops.dopsender.utils.docsColormap
-import p2pdops.dopsender.utils.fileTypes
-import p2pdops.dopsender.utils.humanizeBytes
+import p2pdops.dopsender.utils.*
 import java.io.File
 
 
@@ -75,6 +72,8 @@ class ReceivedFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_received, container, false)
         root.receivedFilesRecycler.setHasFixedSize(true)
         fetchFiles()
+        if(files.isNotEmpty())
+            root.noFiles.shrink()
         root.receivedFilesRecycler.layoutManager = GridLayoutManager(context, 2)
         root.receivedFilesRecycler.adapter = object : RecyclerView.Adapter<ReceivedFile>() {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReceivedFile =
@@ -92,8 +91,7 @@ class ReceivedFragment : Fragment() {
                 holder.itemView.setOnClickListener {
                     try {
                         if (folderType == FileType.Apps) {
-                            ApkInstaller.installApplication(requireContext(), currFile);
-
+                            ApkInstaller.installApplication(requireContext(), currFile)
                         } else {
                             val uri: Uri = FileProvider.getUriForFile(
                                 requireContext(),
@@ -102,7 +100,7 @@ class ReceivedFragment : Fragment() {
                             )
                             val intent = Intent(Intent.ACTION_VIEW, uri)
                             if (folderType != FileType.Apps)
-                                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                             startActivity(intent)
                         }
 
@@ -181,6 +179,7 @@ class ReceivedFragment : Fragment() {
                     }
                 }
             }
+
         }
         return root
     }

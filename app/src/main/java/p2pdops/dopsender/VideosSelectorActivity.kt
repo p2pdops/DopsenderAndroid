@@ -10,7 +10,6 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
@@ -44,8 +43,6 @@ class VideosSelectorActivity : AppCompatActivity(), Handler.Callback {
     private var selectedVideos: ArrayList<File> = ArrayList()
 
     private var menu: Menu? = null
-
-    private val handler = Handler(this)
 
     private val allSelectedPositions = ArrayList<Int>()
 

@@ -10,7 +10,6 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
@@ -18,8 +17,6 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
-import kotlinx.android.synthetic.main.activity_audios_selector.*
-
 import kotlinx.android.synthetic.main.activity_compressed_selector.*
 import kotlinx.android.synthetic.main.activity_compressed_selector.bottom_app_bar
 import kotlinx.android.synthetic.main.activity_compressed_selector.bottom_app_bar_title
@@ -45,8 +42,6 @@ class CompressedSelectorActivity : AppCompatActivity(), Handler.Callback {
     private var selectedCompressed: ArrayList<File> = ArrayList()
 
     private var menu: Menu? = null
-
-    private val handler = Handler(this)
 
     private var showingFab = false
 

@@ -3,24 +3,58 @@ package p2pdops.dopsender.utils
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.google.android.ads.nativetemplates.NativeTemplateStyle
+import com.google.android.ads.nativetemplates.TemplateView
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import p2pdops.dopsender.R
 import p2pdops.dopsender.modals.FileType
 import java.text.CharacterIterator
 import java.text.StringCharacterIterator
 import java.util.*
 
+fun Context.loadAd(nativeAd: TemplateView) {
+    MobileAds.initialize(this)
+    val adLoader = AdLoader.Builder(this, getString(R.string.home_ad_id))
+        .forUnifiedNativeAd { unifiedNativeAd ->
+
+            val styles = NativeTemplateStyle.Builder()
+                .withMainBackgroundColor(
+                    ColorDrawable(Color.parseColor("#ffffff"))
+                )
+                .build()
+
+            nativeAd.setStyles(styles)
+            nativeAd.setNativeAd(unifiedNativeAd)
+            nativeAd.slideUp()
+            Log.d("LoadAd", "${this@loadAd}: Ad shown")
+        }
+        .build()
+
+    Handler(Looper.getMainLooper()).post {
+        adLoader.loadAd(AdRequest.Builder().build())
+    }
+
+}
+
 fun Activity.activeNetwork(): Boolean {
     val cm =
         getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
     val activeNetwork: NetworkInfo? = cm!!.activeNetworkInfo
     return activeNetwork != null &&
-            activeNetwork.isConnected()
+            activeNetwork.isConnected
 }
 
 fun dpToPx(dp: Int): Int {
@@ -54,7 +88,7 @@ fun Activity.whiteStatusBarBlackText() {
     window.statusBarColor = resources.getColor(R.color.pureWhite)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-    };
+    }
 }
 
 fun humanizeTime(_millis: Long): String? {
@@ -78,15 +112,6 @@ fun humanizeTime(_millis: Long): String? {
     return out
 }
 
-
-fun getDrawable(context: Context, id: Int): Drawable {
-    val version: Int = Build.VERSION.SDK_INT
-    return (if (version >= 21) {
-        ContextCompat.getDrawable(context, id)
-    } else {
-        context.resources.getDrawable(id, null)
-    })!!
-}
 
 val docsColormap = mapOf(
     "pdf" to R.color.color_pdf,

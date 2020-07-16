@@ -11,13 +11,7 @@ import java.time.Duration;
 
 public class FileUtils {
 
-
-    public static Long getFileSize(String path) {
-        return new File(path).length();
-    }
-
-
-    public static String humanMillis(Duration duration) {
+    public static String humanizeMillis(Duration duration) {
         return duration.toString()
                 .substring(2)
                 .replaceAll("(\\d[HMS])(?!$)", "$1 ")

@@ -1,6 +1,5 @@
 package p2pdops.dopsender
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -9,19 +8,10 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
-
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.BaseOnTabSelectedListener
-
-import p2pdops.dopsender.pagers.IntroViewPagerAdapter
-import p2pdops.dopsender.pagers.ScreenItem
 import kotlinx.android.synthetic.main.activity_intro.*
 
 
 class IntroActivity : AppCompatActivity() {
-    private var screenPager: ViewPager? = null
-    private var introViewPagerAdapter: IntroViewPagerAdapter? = null
 
     var position = 0
 

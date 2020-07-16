@@ -4,7 +4,6 @@ import android.app.Activity
 import android.graphics.PorterDuff
 import android.os.AsyncTask
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -89,7 +88,7 @@ class DocsFolderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true)
         val rootView = inflater.inflate(R.layout.frag_docs, container, false)
         viewModel = ViewModelProvider(this).get(DocsViewModel::class.java)
 

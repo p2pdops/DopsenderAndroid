@@ -7,8 +7,6 @@ import androidx.fragment.app.FragmentPagerAdapter
 import p2pdops.dopsender.frags.AppsFilesFragment
 import p2pdops.dopsender.frags.AppsInstalledFragment
 
-import p2pdops.dopsender.modals.FolderInfo
-import p2pdops.dopsender.frags.AudiosFolderFragment
 
 
 class AppsSelectorPagerAdapter(
