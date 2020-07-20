@@ -7,8 +7,6 @@ import p2pdops.dopsender.modals.AppData
 class AppsViewModel : ViewModel() {
 
 
-    private val TAG = "AppsViewModel"
-
     val selectedApps: MutableLiveData<ArrayList<AppData>> = MutableLiveData(ArrayList())
 
     fun addSelectedApps(file: AppData) {

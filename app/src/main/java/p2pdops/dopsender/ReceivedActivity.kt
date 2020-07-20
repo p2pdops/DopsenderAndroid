@@ -15,10 +15,6 @@ import p2pdops.dopsender.utils.slideUp
 
 class ReceivedActivity : AppCompatActivity() {
 
-    companion object {
-        private const val TAG = "ReceivedActivity"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_received)

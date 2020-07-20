@@ -47,20 +47,8 @@ fun Context.loadAd(nativeAd: TemplateView) {
 
 }
 
-fun Activity.activeNetwork(): Boolean {
-    val cm =
-        getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-    val activeNetwork: NetworkInfo? = cm!!.activeNetworkInfo
-    return activeNetwork != null &&
-            activeNetwork.isConnected
-}
-
 fun dpToPx(dp: Int): Int {
     return (dp * Resources.getSystem().displayMetrics.density).toInt()
-}
-
-fun pxToDp(px: Int): Int {
-    return (px / Resources.getSystem().displayMetrics.density).toInt()
 }
 
 

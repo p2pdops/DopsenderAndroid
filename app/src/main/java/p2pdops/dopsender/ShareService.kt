@@ -33,9 +33,12 @@ import java.util.*
 class ShareService : Service(), Handler.Callback, FileTransferStatusListener {
 
     private var wifiP2pDataNull: Boolean = false
-    private val TAG = "ShareService"
     private val handler = Handler(Looper.getMainLooper(), this)
     private val mBinder: IBinder = LocalBinder(this)
+
+    companion object {
+        private const val TAG = "ShareService"
+    }
 
     class LocalBinder(val service: ShareService) : Binder()
 

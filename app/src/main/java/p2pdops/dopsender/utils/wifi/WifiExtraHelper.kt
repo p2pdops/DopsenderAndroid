@@ -15,8 +15,4 @@ object WifiExtraHelper {
 
     }
 
-    fun closeWifi(context: Context) {
-        val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        wifiManager.isWifiEnabled = false
-    }
 }

@@ -70,8 +70,8 @@ class WifiDevicesAdapter(
                         holder.itemView.connectingLottie.shrink()
                         Toast.makeText(c, "Please retry!", Toast.LENGTH_SHORT).show()
                     } else {
-                        c.connectToMacAddress(wifiDevice.macAddress) {
-                            if (retry++ == 2 && it != -1) {
+                        c.connectToMacAddress(wifiDevice.macAddress) { it2 ->
+                            if (retry++ == 2 && it2 != -1) {
                                 holder.itemView.connectingLottie.shrink()
                                 Toast.makeText(c, "Please retry!", Toast.LENGTH_SHORT).show()
                             }

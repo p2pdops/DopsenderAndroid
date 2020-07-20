@@ -23,11 +23,6 @@ import pub.devrel.easypermissions.EasyPermissions
 
 class NameChooseActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
-    companion object {
-        private const val TAG = "NameChooseActivity"
-    }
-
-
     val dps = dpsMap.entries.toList()
 
     class DpHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

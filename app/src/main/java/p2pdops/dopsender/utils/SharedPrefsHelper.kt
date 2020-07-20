@@ -67,36 +67,8 @@ fun Context.setHomeHelperShown() {
     editor.apply()
 }
 
-fun Context.getSendFabHelperShown(): Boolean {
-    val pref = applicationContext.getSharedPreferences(
-        "dopsender",
-        Context.MODE_PRIVATE
-    )
-    return pref.getBoolean(getString(R.string.app_user_send_fab_helper_shown), false)
-}
-
-fun Context.setSendFabHelperShown() {
-    val pref = applicationContext.getSharedPreferences(
-        "dopsender",
-        Context.MODE_PRIVATE
-    )
-    val editor = pref.edit()
-    editor.putBoolean(getString(R.string.app_user_send_fab_helper_shown), true)
-    editor.apply()
-}
-
-
 fun Context.getDeviceUnSupported(): Boolean {
     val pref = applicationContext.getSharedPreferences("dopsender", Context.MODE_PRIVATE)
     return pref.getBoolean(getString(R.string.app_device_unsupported), false)
 }
 
-fun Context.setDeviceUnSupported() {
-    val pref = applicationContext.getSharedPreferences(
-        "dopsender",
-        Context.MODE_PRIVATE
-    )
-    val editor = pref.edit()
-    editor.putBoolean(getString(R.string.app_device_unsupported), true)
-    editor.apply()
-}

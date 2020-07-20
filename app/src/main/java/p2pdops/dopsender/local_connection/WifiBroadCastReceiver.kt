@@ -28,8 +28,4 @@ class WiFiP2PBroadcastReceiver(
             }
         }
     }
-
-    companion object {
-        private const val TAG = "WiFiP2PBroadcastReceive"
-    }
 }
