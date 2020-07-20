@@ -6,6 +6,29 @@
     android:elevation="10dp"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/docSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:gravity="end"
+        android:padding="4dp"
+        android:paddingHorizontal="8dp"
+        android:text="5 MB"
+        android:textSize="12sp" />
+
+
+    <TextView
+        android:id="@+id/docType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="XLSX"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
     <p2pdops.dopsender.views.SquareImage
         android:id="@+id/docIcon"
         android:layout_width="match_parent"
@@ -17,7 +40,7 @@
         android:src="@drawable/ic_doc_file" />
 
     <ImageView
-        android:id="@+id/checked"
+        android:id="@+id/documentChecked"
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_alignParentEnd="true"
@@ -31,7 +54,9 @@
         android:id="@+id/docName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="2dp"
         android:layout_gravity="bottom"
+        android:paddingHorizontal="4dp"
         android:ellipsize="marquee"
         android:gravity="center"
         android:marqueeRepeatLimit="marquee_forever"
@@ -39,28 +64,5 @@
         android:singleLine="true"
         android:text="Hello" />
 
-    <TextView
-        android:id="@+id/docSize"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="20dp"
-        android:gravity="end"
-
-        android:paddingHorizontal="8dp"
-        android:text="5 MB"
-        android:textSize="11sp" />
-
-    <TextView
-        android:id="@+id/docType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:gravity="center"
-        android:padding="8dp"
-        android:text="XLSX"
-
-        android:textSize="11sp"
-        android:textStyle="bold" />
 
 </androidx.cardview.widget.CardView>

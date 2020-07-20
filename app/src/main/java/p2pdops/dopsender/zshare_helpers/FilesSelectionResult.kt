@@ -41,7 +41,7 @@ fun ShareActivity.handActivityResult(
                     RESULT_CODE_INPUT_IMAGES -> FileType.Images
                     RESULT_CODE_INPUT_VIDEOS -> FileType.Videos
                     RESULT_CODE_INPUT_AUDIOS -> FileType.Audios
-                    RESULT_CODE_INPUT_COMPRESSED -> FileType.COMPRESSED
+                    RESULT_CODE_INPUT_COMPRESSED -> FileType.Compressed
                     else -> {
                         throw Exception("Impossible!")
                     }

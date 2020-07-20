@@ -5,22 +5,20 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.View
-import androidx.core.content.ContextCompat
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
+import p2pdops.dopsender.BuildConfig
 import p2pdops.dopsender.R
 import p2pdops.dopsender.modals.FileType
+import java.io.File
 import java.text.CharacterIterator
 import java.text.StringCharacterIterator
 import java.util.*
@@ -84,13 +82,6 @@ fun humanizeBytes(_bytes: Long, limit: Int = 2): String? {
     )
 }
 
-fun Activity.whiteStatusBarBlackText() {
-    window.statusBarColor = resources.getColor(R.color.pureWhite)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-    }
-}
-
 fun humanizeTime(_millis: Long): String? {
     var seconds = _millis / 1000
     var out = ""
@@ -122,4 +113,10 @@ val docsColormap = mapOf(
     "xlsx" to R.color.color_xlsx
 )
 
-val fileTypes = FileType.values()
+val fileTypeList = FileType.values()
+
+fun Context.getExternalDirectory(): String = getExternalFilesDir(null)?.absolutePath!!.replace(
+    "Android/data/${BuildConfig.APPLICATION_ID}/files", ""
+)
+
+fun Context.getDopsenderFolder(): File = File("${getExternalDirectory()}/Dopsender/")

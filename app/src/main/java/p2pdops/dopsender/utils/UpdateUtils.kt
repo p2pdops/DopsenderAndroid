@@ -44,5 +44,4 @@ fun Activity.notifyUpdate(remoteConfig: FirebaseRemoteConfig) {
             )
         }
     }
-
 }

@@ -2,7 +2,6 @@ package p2pdops.dopsender.zshare_helpers
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
 import android.location.LocationManager
 import android.net.wifi.WifiManager
@@ -10,17 +9,13 @@ import android.net.wifi.WpsInfo
 import android.net.wifi.p2p.WifiP2pConfig
 import android.net.wifi.p2p.WifiP2pManager
 import android.os.Build
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_option.view.*
-import p2pdops.dopsender.*
 import p2pdops.dopsender.modals.*
-import p2pdops.dopsender.utils.*
+import p2pdops.dopsender.selectors.SendOptionsAdapter
+import p2pdops.dopsender.utils.getDopsenderFolder
+import p2pdops.dopsender.utils.getLocalDpKey
+import p2pdops.dopsender.utils.getLocalName
 import p2pdops.dopsender.utils.wifi.WifiConstants
 import p2pdops.dopsender.utils.wifi.WifiConstants.FILE_SERVER_PORT
 import java.io.File
@@ -34,17 +29,6 @@ fun Activity.getDownloadFile(fileType: FileType, fileName: String): File {
     }.also {
         return file
     }
-}
-
-fun Activity.getDopsenderFolder(): File {
-    val dopsenderFolder =
-        File(getExternalFilesDir(null)?.canonicalPath + "/Dopsender/")
-
-    if (!(dopsenderFolder.exists()))
-        if (dopsenderFolder.mkdirs())
-            Log.d("folderFormalities", "created ${dopsenderFolder.canonicalPath}")
-
-    return dopsenderFolder
 }
 
 fun getDownloadUrl(peerAddress: String, remoteFilePath: String) =
@@ -114,64 +98,4 @@ fun Activity.myWifiPresenceRecord(): MutableMap<String, String> {
     record[WifiConstants.PROP_USER_DP] = getLocalDpKey()
     record[WifiConstants.PROP_DEVICE_NAME] = Build.MODEL
     return record
-}
-
-class SendOptionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val textView: TextView = itemView.send_option
-}
-
-class SendOptionsAdapter(private val c: Activity) : RecyclerView.Adapter<SendOptionHolder>() {
-
-    companion object {
-        private const val TAG = "SendOptionsUtils"
-        private val colors = arrayOf(
-            R.color.c_doc,
-            R.color.c_apps,
-            R.color.c_img,
-            R.color.c_vid,
-            R.color.c_aud,
-            R.color.c_com
-        )
-
-        private val maps = arrayOf(
-            "Documents", "Apps",
-            "Images",
-            "Videos",
-            "Audios",
-            "Compressed"
-        )
-
-        private val activities = arrayOf(
-            DocsSelectorActivity::class.java to RESULT_CODE_INPUT_DOCS,
-            AppsSelectorActivity::class.java to RESULT_CODE_INPUT_APPS,
-            ImagesSelectorActivity::class.java to RESULT_CODE_INPUT_IMAGES,
-            VideosSelectorActivity::class.java to RESULT_CODE_INPUT_VIDEOS,
-            AudiosSelectorActivity::class.java to RESULT_CODE_INPUT_AUDIOS,
-            CompressedSelectorActivity::class.java to RESULT_CODE_INPUT_COMPRESSED
-        )
-
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SendOptionHolder =
-        SendOptionHolder(
-            LayoutInflater.from(c)
-                .inflate(R.layout.item_option, parent, false)
-        )
-
-    override fun getItemCount(): Int = maps.size
-
-    override fun onBindViewHolder(holder: SendOptionHolder, position: Int) {
-        holder.textView.text = maps[position]
-        val color = c.resources.getColor(colors[position])
-        holder.textView.setTextColor(color)
-        holder.textView.background.setTint(color)
-        holder.itemView.setOnClickListener {
-            Log.d(TAG, "option click: ")
-            c.startActivityForResult(
-                Intent(c, activities[position].first),
-                activities[position].second
-            )
-        }
-    }
-
 }

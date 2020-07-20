@@ -53,6 +53,8 @@ class ShareActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsRe
     private var forceRefresh: Boolean = false
     private var devicesAdapter: WifiDevicesAdapter? = null
     private val wifiDevices = ArrayList<WifiDeviceData>()
+
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_share)
@@ -67,7 +69,14 @@ class ShareActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsRe
 
         // initial ui
         myDp.setImageResource(getLocalDpRes())
-        myInfo.text = getLocalName()
+
+        var deviceModel = Build.MODEL
+        val deviceProduct = Build.PRODUCT
+
+        if (deviceModel == deviceProduct)
+            deviceModel = Build.MANUFACTURER
+
+        myInfo.text = getLocalName() + "\n$deviceModel, $deviceProduct"
 
         closeSheet(discoverDevicesSheet)
         setupSendOptions(sendOptionsRecycler)
@@ -140,15 +149,16 @@ class ShareActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsRe
 
     internal lateinit var manager: WifiP2pManager
     internal lateinit var channel: WifiP2pManager.Channel
-    private lateinit var wifiBroadCastReceiver: WiFiP2PBroadcastReceiver
+    private var wifiBroadCastReceiver: WiFiP2PBroadcastReceiver? = null
     private fun initializeWifiManager() {
         manager = (getSystemService(Context.WIFI_P2P_SERVICE) as WifiP2pManager)
         channel = manager.initialize(this, Looper.getMainLooper(), null)
         manager.requestConnectionInfo(channel, this)
         manager.requestGroupInfo(channel, this)
         if (!forceRefresh) {
+            this.forceRefresh = false
             wifiBroadCastReceiver = WiFiP2PBroadcastReceiver(manager, channel, this)
-            registerReceiver(wifiBroadCastReceiver, wifiP2pInfoReceiverIntentFilter())
+            registerReceiver(wifiBroadCastReceiver!!, wifiP2pInfoReceiverIntentFilter())
         }
     }
 
@@ -190,6 +200,11 @@ class ShareActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsRe
                 rippleBackground.startRippleAnimation()
                 _disConnectedLay.bulge()
                 _ConnectedLay.shrink()
+
+                if (mBound) {
+                    finish()
+                    mBound = false
+                }
             }
             0
         }
@@ -216,15 +231,20 @@ class ShareActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsRe
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterReceiver(wifiBroadCastReceiver)
         mService?.disconnect().also {
             manager.removeGroup(channel, null)
 
             try {
                 unbindService(mConnection)
-                unregisterReceiver(wifiBroadCastReceiver)
             } catch (e: Exception) {
                 Log.d(TAG, "disconnect: unregister error: $e")
+            }
+            wifiBroadCastReceiver?.let {
+                try {
+                    unregisterReceiver(it)
+                } catch (e: Exception) {
+                    Log.e(TAG, "onDestroy: error unregistering receiver", e)
+                }
             }
             handler.post {
                 manager.clearLocalServices(channel, null)
@@ -342,6 +362,11 @@ class ShareActivity : AppCompatActivity(), OnCompleteListener<LocationSettingsRe
 
     override fun handlePeerDisconnected() {
         manager.requestConnectionInfo(channel, this)
+    }
+
+    override fun onInitError() {
+        Toast.makeText(this, "Something went wrong! please try again!", Toast.LENGTH_LONG).show()
+        finish()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

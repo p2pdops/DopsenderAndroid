@@ -18,9 +18,8 @@ import p2pdops.dopsender.interfaces.ShareActivityImpl
 import p2pdops.dopsender.local_connection.ClientSocketThread
 import p2pdops.dopsender.local_connection.GroupOwnerSocketThread
 import p2pdops.dopsender.local_connection.MessagesRunnable
-import p2pdops.dopsender.local_connection.WConfiguration.SOCKETS_CONNECTED
 import p2pdops.dopsender.local_connection.WConfiguration.HANDLE_RECEIVED_MESSAGE
-import p2pdops.dopsender.local_connection.WConfiguration.HANDLE_TRY_RESTART_SOCKET
+import p2pdops.dopsender.local_connection.WConfiguration.SOCKETS_CONNECTED
 import p2pdops.dopsender.modals.ConnSendFileItem
 import p2pdops.dopsender.modals.FileData
 import p2pdops.dopsender.services.FileHttpServer
@@ -31,9 +30,9 @@ import java.io.IOException
 import java.net.InetAddress
 import java.util.*
 
-
 class ShareService : Service(), Handler.Callback, FileTransferStatusListener {
 
+    private var wifiP2pDataNull: Boolean = false
     private val TAG = "ShareService"
     private val handler = Handler(Looper.getMainLooper(), this)
     private val mBinder: IBinder = LocalBinder(this)
@@ -62,23 +61,35 @@ class ShareService : Service(), Handler.Callback, FileTransferStatusListener {
     private var isGroupOwner = false
 
     var activity: ShareActivityImpl? = null
+        set(value) {
+            field = value
+            if (wifiP2pDataNull) {
+                activity?.onInitError()
+                stopSelf()
+            }
+        }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val wifiInfo = intent?.getParcelableExtra<WifiP2pInfo>(WIFI_P2P_DATA)!!
-        isGroupOwner = wifiInfo.isGroupOwner
-        if (isGroupOwner) {
-            try {
-                groupOwnerSocketThread = GroupOwnerSocketThread(handler)
-                groupOwnerSocketThread?.start()
-                Log.d(TAG, "as owner : socketThread: $groupOwnerSocketThread")
-            } catch (e: IOException) {
-                Log.e(TAG, "cannot create server: ", e)
+        val wifiInfo = intent?.getParcelableExtra<WifiP2pInfo>(WIFI_P2P_DATA)
+        if (wifiInfo != null) {
+            isGroupOwner = wifiInfo.isGroupOwner
+            if (isGroupOwner) {
+                try {
+                    groupOwnerSocketThread = GroupOwnerSocketThread(handler)
+                    groupOwnerSocketThread?.start()
+                    Log.d(TAG, "as owner : socketThread: $groupOwnerSocketThread")
+                } catch (e: IOException) {
+                    Log.e(TAG, "cannot create server: ", e)
+                }
+            } else {
+                Log.d(TAG, "Connected as peer")
+                clientSocketThread = ClientSocketThread(handler, wifiInfo.groupOwnerAddress)
+                clientSocketThread?.start()
             }
         } else {
-            Log.d(TAG, "Connected as peer")
-            clientSocketThread = ClientSocketThread(handler, wifiInfo.groupOwnerAddress)
-            clientSocketThread?.start()
+            wifiP2pDataNull = true
         }
+
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -87,12 +98,12 @@ class ShareService : Service(), Handler.Callback, FileTransferStatusListener {
     }
 
     private fun startForeground() {
-        val channelId =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                createNotificationChannel()
-            else ""
+        val channelId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            createNotificationChannel()
+        else ""
 
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
+
         val notification = notificationBuilder.setOngoing(true)
             .setSmallIcon(R.drawable.ic_notification)
             .setPriority(NotificationCompat.PRIORITY_MIN)
@@ -127,6 +138,10 @@ class ShareService : Service(), Handler.Callback, FileTransferStatusListener {
     override fun handleMessage(handleMessage: Message): Boolean {
         Log.d(TAG, "handleMessage: $handleMessage")
 
+        if (handleMessage.what == -2) {
+            activity?.onInitError()
+        }
+
         val obj = handleMessage.obj
 
         when (handleMessage.what) {
@@ -158,19 +173,6 @@ class ShareService : Service(), Handler.Callback, FileTransferStatusListener {
                         }
 
                     }
-                }
-            }
-            HANDLE_TRY_RESTART_SOCKET -> {
-                if (isGroupOwner) {
-                    try {
-                        groupOwnerSocketThread = GroupOwnerSocketThread(handler)
-                        groupOwnerSocketThread?.start()
-                    } catch (e: Exception) {
-                        Log.d(TAG, "groupOwnerSocketThread restart :", e)
-                    }
-                } else {
-                    clientSocketThread = ClientSocketThread(handler, peerAddress!!)
-                    clientSocketThread!!.start()
                 }
             }
         }

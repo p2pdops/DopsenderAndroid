@@ -20,6 +20,7 @@ public class SquareImage extends AppCompatImageView {
         super(context, attrs, defStyle);
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
     @Override
     protected void onMeasure(int width, int height) {
         super.onMeasure(width, height);

@@ -15,7 +15,7 @@
         android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="8dp">
 
         <p2pdops.dopsender.views.SquareImage
             android:id="@+id/icon_view"

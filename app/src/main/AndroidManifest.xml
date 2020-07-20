@@ -29,8 +29,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ShareActivity" android:theme="@style/AppTheme.Share" />
-        <activity android:name=".NoSupportedActivity" />
+
+        <activity android:name=".selectors.DummyOptionsActivity" />
+        <activity
+            android:name=".selectors.MediaSelectorsActivity"
+            android:label="@string/title_activity_media_selector"/>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/appId" />
+
         <activity
             android:name=".SplashActivity"
             android:theme="@style/AppTheme.Launcher">
@@ -40,22 +48,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NameChooseActivity" />
+
         <activity android:name=".IntroActivity" />
 
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/appId" />
+        <activity android:name=".NoSupportedActivity" />
+        <activity android:name=".NameChooseActivity" />
 
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" />
-        <activity android:name=".CompressedSelectorActivity" />
-        <activity android:name=".AudiosSelectorActivity" />
-        <activity android:name=".VideosSelectorActivity" />
-        <activity android:name=".ImagesSelectorActivity" />
-        <activity android:name=".DocsSelectorActivity" />
-        <activity android:name=".AppsSelectorActivity" />
+
+        <activity
+            android:name=".ShareActivity"
+            android:theme="@style/AppTheme.Share" />
+
+        <activity
+            android:name=".selectors.AppsSelectorActivity" />
+
         <activity
             android:name=".ReceivedActivity"
             android:parentActivityName=".MainActivity" />
@@ -63,6 +72,7 @@
         <service
             android:name=".ShareService"
             android:enabled="true" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

@@ -69,9 +69,8 @@ class SplashActivity : AppCompatActivity() {
             viewAnimator.setInterpolator(DecelerateInterpolator()).start()
         }
 
-
         Handler(Looper.getMainLooper()).postDelayed({
-//            startActivity(Intent(this, NameChooseActivity::class.java))
+//            startActivity(Intent(this, DummyOptionsActivity::class.java))
 //            finish()
 
             if (!isWifiDirectSupported() || getDeviceUnSupported()) {

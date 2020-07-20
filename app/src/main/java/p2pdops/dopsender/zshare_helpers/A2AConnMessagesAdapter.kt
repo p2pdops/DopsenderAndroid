@@ -36,7 +36,7 @@ class ConnSendHolder(itemView: View) : BaseConnHolder(itemView) {
     fun setItem(item: ConnSendFileItem) {
         val itemFile = File(item.filePath)
         when (item.fileType) {
-            FileType.COMPRESSED -> {
+            FileType.Compressed -> {
                 itemView.sendFileIcon.setColorFilter(
                     getColorStateList(
                         itemView.context,
@@ -129,7 +129,7 @@ class ConnReceiveHolder(itemView: View) : BaseConnHolder(itemView) {
         val itemFile = File(item.filePath)
 
         when (item.fileType) {
-            FileType.COMPRESSED -> {
+            FileType.Compressed -> {
                 itemView.receiveFileIcon.setColorFilter(
                     getColorStateList(
                         itemView.context,

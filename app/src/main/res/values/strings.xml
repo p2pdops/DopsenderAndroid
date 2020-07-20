@@ -5,7 +5,7 @@
     <string name="nav_header_title">Dopsender</string>
     <string name="nav_header_subtitle">by p2pdops</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Watch ad</string>
+    <string name="action_settings">Donate through ad</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_about">About</string>
@@ -13,10 +13,30 @@
     <string name="is_name_set">isNameSet</string>
     <string name="app_user_name">app_user_name</string>
     <string name="app_user_dp">app_user_dp</string>
-    <string name="app_user_home_helper_shown">app_user_home_helper_shown</string>
+    <string name="app_main_home_helper">app_main_home_helper</string>
     <string name="app_user_send_select_helper_shown">app_user_send_select_helper_shown</string>
     <string name="app_user_send_fab_helper_shown">app_user_send_fab_helper_shown</string>
     <string name="app_device_unsupported">app_device_unsupported</string>
     <string name="not_supported_message">Your Device does not support Wifi Direct- technology, on which this app greatly depends on.\n\n\nSoon we will add sharing with hotspot option too. Stay tuned, it doesn\'t take soo long.\n\n\n\nRegards,\nDopsender</string>
+    <string name="title_activity_media_selector">MediaSelectorActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="start_guide">
+        Both sender, receiver should turn on Wifi.
+        No need of any router just turn on!
+        Dopsender uses Wifi-Direct Technology, instead of (hotspot - wifi), both need to turn on wifi only.
+        THE WHOLE PROCESS IS OFFLINE.
+        Both sender, receiver need to click on "Connect".
+        Open GPS and wait a moment while it discovers the other device.
+        After other device shows up in list. Click on it.
+        Can be done by either sender or receiver
+        From bottom menu of file types, select respective one and then you can choose files.
+        Just click round send button at bottom-left to send selected files.
+        You can repeat this select and sending as many times as you wish. Until you are out of free space
+        Once sharing of files is done, click close button at top left corner.
+        Click Received Files to show the files you\'ve received.
+        Feel free to give suggestions. 😊
+    </string>
+    <string name="action_help">Guide</string>
 
 </resources>

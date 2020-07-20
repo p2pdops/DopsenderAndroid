@@ -3,24 +3,22 @@ package p2pdops.dopsender.modals
 import android.graphics.drawable.Drawable
 import java.io.File
 
-data class FolderInfo(val name: String, val path: String, val lastModified: Long)
-
-enum class ConnectionMessageType {
-    SEND_FILE,
-    RECEIVE_FILE,
-}
-
 enum class FileType {
     Documents,
     Apps,
     Images,
     Videos,
     Audios,
-    COMPRESSED
+    Compressed
 }
 
 enum class ConnFileStatusTypes {
     WAITING, LOADING, LOADED
+}
+
+enum class ConnectionMessageType {
+    SEND_FILE,
+    RECEIVE_FILE,
 }
 
 sealed class ConnectionItem(open val type: ConnectionMessageType, open val timestamp: Long)

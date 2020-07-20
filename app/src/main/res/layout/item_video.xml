@@ -16,7 +16,7 @@
         android:src="@color/pureGrey" />
 
     <ImageView
-        android:id="@+id/checked"
+        android:id="@+id/videoChecked"
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_alignParentEnd="true"
@@ -32,26 +32,21 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginEnd="50dp"
-        android:background="@color/pureBlack"
+        android:background="@color/pureWhite"
         android:gravity="center"
-
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:singleLine="true"
-
-
-        android:text="Hello"
-        android:textColor="@color/pureWhite" />
+        android:text="Hello" />
 
     <TextView
         android:id="@+id/videoSize"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:background="@color/pureBlack"
+        android:background="@color/pureWhite"
         android:gravity="center"
-        android:text="5 MB"
-        android:textColor="@color/pureWhite" />
+        android:text="5 MB" />
 
 </FrameLayout>

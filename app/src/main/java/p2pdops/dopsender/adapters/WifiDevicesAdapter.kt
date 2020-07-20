@@ -7,6 +7,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_wifi_device.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import p2pdops.dopsender.R
 import p2pdops.dopsender.ShareActivity
 import p2pdops.dopsender.utils.bulge
@@ -56,12 +60,24 @@ class WifiDevicesAdapter(
         holder.itemView.userDp.setImageResource(getDpForKey(wifiDevice.dpKey))
         holder.itemView.userName.text = wifiDevice.name
         holder.itemView.deviceName.text = wifiDevice.deviceName
+        var retry = 0
         holder.itemView.setOnClickListener {
-            c.connectToMacAddress(wifiDevice.macAddress) {
-                holder.itemView.connectingLottie.shrink()
-                // some error
-                if(it != -1)
-                Toast.makeText(c, "Please retry!", Toast.LENGTH_SHORT).show()
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(500)
+                retry++
+                c.connectToMacAddress(wifiDevice.macAddress) {
+                    if (retry++ == 2 && it != -1) {
+                        holder.itemView.connectingLottie.shrink()
+                        Toast.makeText(c, "Please retry!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        c.connectToMacAddress(wifiDevice.macAddress) {
+                            if (retry++ == 2 && it != -1) {
+                                holder.itemView.connectingLottie.shrink()
+                                Toast.makeText(c, "Please retry!", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                }
             }
             holder.itemView.connectingLottie.bulge()
         }

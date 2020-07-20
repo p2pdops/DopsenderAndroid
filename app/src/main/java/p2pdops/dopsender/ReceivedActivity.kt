@@ -9,7 +9,7 @@ import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import kotlinx.android.synthetic.main.activity_received.*
-import p2pdops.dopsender.ui.received_files.SectionsPagerAdapter
+import p2pdops.dopsender.ui.received_files.ReceivedPagerAdapter
 import p2pdops.dopsender.utils.slideUp
 
 
@@ -25,7 +25,7 @@ class ReceivedActivity : AppCompatActivity() {
         supportActionBar?.title = "Your received files..."
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
+        val sectionsPagerAdapter = ReceivedPagerAdapter(supportFragmentManager)
         view_pager.adapter = sectionsPagerAdapter
         tabs.setupWithViewPager(view_pager)
 

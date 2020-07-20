@@ -1,9 +1,13 @@
 package p2pdops.dopsender
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -20,7 +24,12 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import p2pdops.dopsender.utils.getHomeHelperShown
 import p2pdops.dopsender.utils.notifyUpdate
+import p2pdops.dopsender.utils.setHomeHelperShown
 
 
 class MainActivity : AppCompatActivity() {
@@ -43,44 +52,58 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 3600
-        }
-        remoteConfig = Firebase.remoteConfig
+        Handler(Looper.getMainLooper()).postDelayed({
+            mPublisherInterstitialAd = PublisherInterstitialAd(this@MainActivity)
+            mPublisherInterstitialAd?.adUnitId = getString(R.string.reward_ad_id)
 
-        remoteConfig.setConfigSettingsAsync(configSettings)
-        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
-        remoteConfig.fetchAndActivate().addOnCompleteListener {
-            if (remoteConfig["current_version_code"].asLong().toInt() > BuildConfig.VERSION_CODE) {
-                notifyUpdate(remoteConfig)
-            }
-        }
+            mPublisherInterstitialAd?.loadAd(PublisherAdRequest.Builder().build())
 
-        mPublisherInterstitialAd = PublisherInterstitialAd(this)
-        mPublisherInterstitialAd?.adUnitId = getString(R.string.reward_ad_id)
-        mPublisherInterstitialAd?.loadAd(PublisherAdRequest.Builder().build())
+            mPublisherInterstitialAd!!.adListener = object : AdListener() {
+                override fun onAdLoaded() {
+                    interstitialShown = false
+                    invalidateOptionsMenu()
+                }
 
-        mPublisherInterstitialAd!!.adListener = object : AdListener() {
-            override fun onAdLoaded() {
-                interstitialShown = false
-                invalidateOptionsMenu()
-            }
+                override fun onAdFailedToLoad(errorCode: Int) {
+                    Log.d(TAG, "onAdFailedToLoad: ")
+                }
 
-            override fun onAdFailedToLoad(errorCode: Int) {
-                Log.d(TAG, "onAdFailedToLoad: ")
-            }
+                override fun onAdOpened() {
+                }
 
-            override fun onAdOpened() {
+                override fun onAdClicked() {
+                    Toast.makeText(this@MainActivity, "Thank you ! \uD83D\uDE0D", Toast.LENGTH_LONG)
+                        .show()
+                }
 
-            }
+                override fun onAdLeftApplication() {
+                    Toast.makeText(this@MainActivity, "Thank you ! \uD83D\uDE0D", Toast.LENGTH_LONG)
+                        .show()
+                }
 
-            override fun onAdClicked() {
-            }
-
-            override fun onAdLeftApplication() {
+                override fun onAdClosed() {
+                    Toast.makeText(this@MainActivity, "Thank you ! \uD83D\uDE0D", Toast.LENGTH_LONG)
+                        .show()
+                }
             }
 
-            override fun onAdClosed() {
+        }, 500)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val configSettings = remoteConfigSettings {
+                minimumFetchIntervalInSeconds = 3600
+            }
+
+            remoteConfig = Firebase.remoteConfig
+
+            remoteConfig.setConfigSettingsAsync(configSettings)
+            remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+            remoteConfig.fetchAndActivate().addOnCompleteListener {
+                if (remoteConfig["current_version_code"].asLong()
+                        .toInt() > BuildConfig.VERSION_CODE
+                ) {
+                    notifyUpdate(remoteConfig)
+                }
             }
         }
 
@@ -88,13 +111,18 @@ class MainActivity : AppCompatActivity() {
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home, R.id.nav_about
-            ), drawerLayout
+            setOf(R.id.nav_home, R.id.nav_about), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        if (!getHomeHelperShown())
+        AlertDialog.Builder(this)
+            .setTitle("Guide")
+            .setMessage(getString(R.string.start_guide))
+            .setNeutralButton("Ok") { dialogInterface, i -> dialogInterface.dismiss() }
+            .setPositiveButton("Don't show again") { dialogInterface, i -> setHomeHelperShown(); dialogInterface.dismiss() }
+            .show()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -107,7 +135,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
-        return !interstitialShown
+        menu?.findItem(R.id.action_donate)?.isVisible = !interstitialShown
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -119,6 +148,14 @@ class MainActivity : AppCompatActivity() {
                         interstitialShown = true
                         invalidateOptionsMenu()
                     }
+                true
+            }
+            R.id.action_help -> {
+                AlertDialog.Builder(this)
+                    .setTitle("Guide")
+                    .setMessage(getString(R.string.start_guide))
+                    .setPositiveButton("Ok") { dialogInterface, i -> dialogInterface.dismiss() }
+                    .show()
                 true
             }
             else -> false

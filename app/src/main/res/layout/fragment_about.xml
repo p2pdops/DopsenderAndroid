@@ -23,12 +23,13 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="Developed by\nSurya Chandra Pavan Adurthi"
+        android:text="Developed by\n\nSurya Chandra Pavan Adurthi"
         android:textColor="@color/pureWhite"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,18 +48,6 @@
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="DoperTech"
-        android:textColor="@color/pureWhite"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/textView2"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
@@ -162,10 +151,7 @@
         android:fontFamily="sans-serif-medium"
         android:text="🇮🇳 MADE IN INDIA 🇮🇳"
         android:textColor="@color/pureWhite"
-        android:shadowColor="@color/pureWhite"
-        android:shadowDx=".1"
-        android:shadowDy=".1"
-        android:shadowRadius="5"
+
         android:letterSpacing="0.1"
         android:textSize="20sp"
         android:textStyle="bold"

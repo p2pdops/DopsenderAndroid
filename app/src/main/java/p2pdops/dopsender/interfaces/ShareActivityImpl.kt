@@ -17,5 +17,6 @@ interface ShareActivityImpl {
     fun onSendingItemSuccess(item: ConnSendFileItem)
 
     fun handlePeerDisconnected()
+    fun onInitError()
 
 }

@@ -15,10 +15,6 @@ class GroupOwnerSocketThread(private val handler: Handler) : Thread() {
 
     var ipAddress: InetAddress? = null
 
-    fun getPeerIpAddress(): InetAddress? {
-        return ipAddress
-    }
-
     companion object {
         private const val TAG = "GroupOwnerSocketHandler"
     }
@@ -38,6 +34,7 @@ class GroupOwnerSocketThread(private val handler: Handler) : Thread() {
             Log.d(TAG, "init:")
         } catch (e: IOException) {
             Log.e(TAG, "IOException during open ServerSockets with port 4545", e)
+            handler.obtainMessage(-2).sendToTarget()
             pool.shutdownNow()
             throw e
         }
@@ -79,6 +76,4 @@ class GroupOwnerSocketThread(private val handler: Handler) : Thread() {
             pool.shutdown()
         }
     }
-
-
 }

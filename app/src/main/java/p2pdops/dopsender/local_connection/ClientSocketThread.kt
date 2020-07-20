@@ -40,6 +40,7 @@ class ClientSocketThread(
                 socket!!.close()
             } catch (e: IOException) {
                 Log.e(TAG, "run: error closing socket:", e)
+                handler.obtainMessage(-2).sendToTarget()
             }
         }
     }

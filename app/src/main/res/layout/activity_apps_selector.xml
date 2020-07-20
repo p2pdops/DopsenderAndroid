@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
-    tools:context=".DocsSelectorActivity">
+    tools:context=".selectors.AppsSelectorActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

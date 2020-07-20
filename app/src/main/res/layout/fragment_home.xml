@@ -139,17 +139,29 @@
             app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/home_items"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:foregroundGravity="center"
         android:clipToPadding="false"
         android:padding="16dp" />
 
-    <LinearLayout
+
+
+    <com.google.android.ads.nativetemplates.TemplateView
+        android:id="@+id/native_ad"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:gnt_template_type="@layout/gnt_small_template_view"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <LinearLayout
+        android:paddingHorizontal="16dp"
+        android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="wrap_content"
         android:background="@color/pureWhite">
 
@@ -160,26 +172,17 @@
             android:layout_weight="1"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
-            android:padding="4dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:text="More exciting features coming soon!" />
+            android:text="More features coming soon! Stay Tuned 😉" />
 
         <TextView
             android:id="@+id/suggest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="4dp"
-            android:text="Suggest a feature"
+            android:text="GIVE SUGGESTIONS"
             android:textColor="@color/colorPrimary" />
     </LinearLayout>
-
-    <com.google.android.ads.nativetemplates.TemplateView
-        android:id="@+id/native_ad"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:gnt_template_type="@layout/gnt_small_template_view"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
 </LinearLayout>

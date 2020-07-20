@@ -56,9 +56,9 @@ fun ShareActivity.addPresenceListeners(callBack: (record: WifiDeviceData) -> Uni
 
             val newRecord = WifiDeviceData(
                 macAddress = device.deviceAddress,
-                name = record[PROP_USER_NAME]!!,
-                dpKey = record[PROP_USER_DP]!!,
-                deviceName = record[PROP_DEVICE_NAME]!!
+                name = record.getValue(PROP_USER_NAME)!!,
+                dpKey = record.getValue(PROP_USER_DP)!!,
+                deviceName = record.getValue(PROP_DEVICE_NAME)!!
             )
 
             Log.d(TAG, "discoverLocalServices: discovered : $newRecord")
