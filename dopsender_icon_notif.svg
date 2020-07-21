@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="691.64" height="734.97" viewBox="0 0 691.64 734.97">
+  <title>dopsender_icon_notif</title>
+  <circle cx="345.82" cy="389.15" r="339.82" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="12"/>
+  <circle cx="346.2" cy="391.95" r="292.74" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="12"/>
+  <circle cx="608.23" cy="549.58" r="69.6" fill="#fff" stroke="#fff" stroke-miterlimit="10" stroke-width="6"/>
+  <circle cx="346.2" cy="68.51" r="65.51" fill="#fff" stroke="#fff" stroke-miterlimit="10" stroke-width="6"/>
+  <circle cx="84.17" cy="551.63" r="65.51" fill="#fff" stroke="#fff" stroke-miterlimit="10" stroke-width="6"/>
+  <g>
+    <path d="M482.22,584.34a5.15,5.15,0,0,0,4.71-7.22L477,554.59l38.71-38.71a5.15,5.15,0,0,0-7.28-7.29l-38.71,38.72-20-8.79a5.15,5.15,0,0,0-4.15,9.43l21.38,9.4,10.51,23.91A5.16,5.16,0,0,0,482.22,584.34Z" transform="translate(-165.91 -120.27)" fill="#fff" stroke="#fff" stroke-miterlimit="10" stroke-width="8"/>
+    <path d="M641.12,354.42l-276,119.48c-16.11,7-17.18,29.49-1.72,37.92.31.17,7.48,3.31,23.35,10.28a5.15,5.15,0,0,0,4.14-9.43l-22.73-10a10.81,10.81,0,0,1,1.05-19.33l276-119.47a11.6,11.6,0,0,1,15.25,15.25L541,655.08a10.82,10.82,0,0,1-19.34,1L514,638.68a5.15,5.15,0,1,0-9.43,4.14c8.31,18.89,7.81,17.79,8,18.07a21.12,21.12,0,0,0,37.92-1.71l119.47-276c7.89-18.21-10.56-36.7-28.79-28.8Z" transform="translate(-165.91 -120.27)" fill="#fff" stroke="#fff" stroke-miterlimit="10" stroke-width="6"/>
+    <path d="M433.33,513.74a5.15,5.15,0,0,0-7.28,0L379.7,560.1a5.15,5.15,0,1,0,7.28,7.28L433.34,521a5.15,5.15,0,0,0,0-7.29Z" transform="translate(-165.91 -120.27)" fill="#fff" stroke="#fff" stroke-miterlimit="10" stroke-width="8"/>
+    <path d="M531.2,575.55a5.16,5.16,0,0,0-7.29,0l-54.08,54.08a5.16,5.16,0,0,0,3.64,8.79,5.1,5.1,0,0,0,3.64-1.51l54.09-54.08a5.15,5.15,0,0,0,0-7.28Z" transform="translate(-165.91 -120.27)" fill="#fff" stroke="#fff" stroke-miterlimit="10" stroke-width="8"/>
+    <path d="M436.35,580.7l-41.2,41.2a5.15,5.15,0,1,0,7.28,7.29L443.63,588a5.15,5.15,0,0,0-7.28-7.28Z" transform="translate(-165.91 -120.27)" fill="#fff" stroke="#fff" stroke-miterlimit="10" stroke-width="8"/>
+  </g>
+</svg>
