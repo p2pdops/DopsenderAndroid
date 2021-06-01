@@ -27,6 +27,7 @@ Dopsender tranfers data in background so no worry of interruptions.
 <hr/>
 
 ### This project is open for contribution
+Feature suggestions, bug reports are always welcome
 
 
 ### MIT License
