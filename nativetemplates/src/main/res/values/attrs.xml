@@ -1,7 +1,0 @@
-<resources>
-
-
-  <declare-styleable name="GntTemplateView">
-    <attr name="gnt_template_type" format="reference"/>
-  </declare-styleable>
-</resources>
