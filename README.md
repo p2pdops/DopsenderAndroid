@@ -24,6 +24,9 @@ Dopsender tranfers data in background so no worry of interruptions.
 ### [Google Play Link: https://play.google.com/store/apps/details?id=p2pdops.dopsender)](https://play.google.com/store/apps/details?id=p2pdops.dopsender)
 
 
+### [Check out Dopsender : Desktop Project ](https://github.com/p2pdops/dopsender-electron)
+
+
 <hr/>
 
 ### This project is open for contribution
